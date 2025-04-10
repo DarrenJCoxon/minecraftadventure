@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import Link from "next/link";   // <--- IMPORTANT: add this import!
+import Link from "next/link";
 import { useSearchParams } from 'next/navigation';
 import type { APIResponse, APICallRequest } from '@/types/adventure';
 
-function AdventureContent() {
+export default function AdventurePage() {
   const params = useSearchParams();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -129,90 +129,83 @@ DO NOT end or summarize the entire adventure yet, unless you detect the journey 
   }
 
   return (
-    <div className="w-full max-w-3xl h-[90vh] flex flex-col px-6 py-4 relative">
+    <main className="min-h-screen flex justify-center items-center bg-[#222] px-2">
+      <div className="w-full max-w-3xl h-[90vh] flex flex-col px-6 py-4 relative">
 
-      {/* ---- "Choose your adventure" link top-left --- */}
-      <Link
-        href="/"
-        className="mb-4 self-start inline-block px-4 py-2 bg-[#4a7a46] text-white border-2 border-[#69aa64] hover:bg-[#3b8f3e] text-sm font-bold uppercase tracking-wider"
-      >
-        ← Choose your next adventure
-      </Link>
+        {/* TOP LEFT button */}
+        <Link
+          href="/"
+          className="mb-4 self-start inline-block px-4 py-2 bg-[#4a7a46] text-white border-2 border-[#69aa64] hover:bg-[#3b8f3e] text-sm font-bold uppercase tracking-wider"
+        >
+          ← Choose your next adventure
+        </Link>
 
-      <h1 className="text-4xl font-bold text-[#55FF55] text-center mb-4 drop-shadow font-mono">
-        MINECRAFT ADVENTURE
-      </h1>
+        <h1 className="text-4xl font-bold text-[#55FF55] text-center mb-4 drop-shadow font-mono">
+          MINECRAFT ADVENTURE
+        </h1>
 
-      <div className="text-center mb-3">
-        <span className="bg-[#3A3A3A] text-white px-4 py-2 inline-block border-2 border-[#1D1D1D] font-mono">
-          Turn: {turnCount}
-        </span>
-      </div>
+        <div className="text-center mb-3">
+          <span className="bg-[#3A3A3A] text-white px-4 py-2 inline-block border-2 border-[#1D1D1D] font-mono">
+            Turn: {turnCount}
+          </span>
+        </div>
 
-      <div
-        className="
-          flex-1 overflow-y-auto border border-[#444] rounded
-          bg-[#1D1D1D] mb-3 shadow-inner
-        "
-        style={{ padding: '2rem 4rem' }}
-      >
-        {story.map((block, idx) => (
-          <p
-            key={idx}
-            className={`whitespace-pre-wrap leading-relaxed mb-4 ${
-              block.startsWith('>') ? 'text-[#FFAA00] font-semibold' : 'text-[#E8E8E8]'
-            }`}
-          >
-            {block}
-          </p>
-        ))}
+        <div
+          className="flex-1 overflow-y-auto border border-[#444] rounded bg-[#1D1D1D] mb-3 shadow-inner"
+          style={{ padding: "2rem 4rem" }}
+        >
+          {story.map((block, idx) => (
+            <p
+              key={idx}
+              className={`whitespace-pre-wrap leading-relaxed mb-4 ${
+                block.startsWith('>') ? 'text-[#FFAA00] font-semibold' : 'text-[#E8E8E8]'
+              }`}
+            >
+              {block}
+            </p>
+          ))}
 
-        {loading && <p className="italic text-[#AAAAAA]">Loading...</p>}
-        {ended && (
-          <div className="font-bold text-center text-[#FF5555] my-6 py-3 border-t-2 border-b-2 border-[#FF5555]">
-            🎉 The Adventure is Over! 🎉
+          {loading && <p className="italic text-[#AAAAAA]">Loading...</p>}
+
+          {ended && (
+            <div className="font-bold text-center text-[#FF5555] my-6 py-3 border-t-2 border-b-2 border-[#FF5555]">
+              🎉 The Adventure is Over! 🎉
+            </div>
+          )}
+        </div>
+
+        {!ended ? (
+          <div className="flex gap-2 mt-auto relative z-10 w-full">
+            <input
+              ref={inputRef}
+              className="mc-input flex-grow p-4 rounded focus:border-[#FFAA00] outline-none"
+              placeholder="Type your next action..."
+              value={input}
+              disabled={loading}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              autoFocus
+            />
+            <button
+              disabled={loading}
+              onClick={send}
+              className="px-5 py-3 rounded font-bold text-white bg-[#4a7a46] border-2 border-[#69aa64] hover:bg-[#3b8f3e] disabled:opacity-50"
+            >
+              Send
+            </button>
+          </div>
+        ) : (
+          <div className="flex justify-center mt-4">
+            <button
+              onClick={restart}
+              className="px-8 py-3 rounded bg-[#4a7a46] text-white font-bold border-2 border-[#69aa64] hover:bg-[#3b8f3e]"
+            >
+              New Adventure
+            </button>
           </div>
         )}
+
       </div>
-
-      {!ended ? (
-        <div className="flex gap-2 mt-auto relative z-10 w-full">
-          <input
-            ref={inputRef}
-            className="mc-input flex-grow p-4 rounded focus:border-[#FFAA00] outline-none"
-            placeholder="Type your next action..."
-            value={input}
-            disabled={loading}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            autoFocus
-          />
-          <button
-            disabled={loading}
-            onClick={send}
-            className="px-5 py-3 rounded font-bold text-white bg-[#4a7a46] border-2 border-[#69aa64] hover:bg-[#3b8f3e] disabled:opacity-50"
-          >
-            Send
-          </button>
-        </div>
-      ) : (
-        <div className="flex justify-center mt-4">
-          <button
-            onClick={restart}
-            className="px-8 py-3 rounded bg-[#4a7a46] text-white font-bold border-2 border-[#69aa64] hover:bg-[#3b8f3e]"
-          >
-            New Adventure
-          </button>
-        </div>
-      )}
-    </div>
-  );
-}
-
-export default function AdventurePage() {
-  return (
-    <main className="min-h-screen flex justify-center items-center bg-[#222] px-2">
-      <AdventureContent />
     </main>
   );
 }
