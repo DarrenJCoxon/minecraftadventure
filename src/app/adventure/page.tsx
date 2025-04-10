@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, Suspense } from 'react';
 import Link from "next/link";
 import { useSearchParams } from 'next/navigation';
 import type { APIResponse, APICallRequest } from '@/types/adventure';
 
-export default function AdventurePage() {
+// Create a separate component that uses useSearchParams
+function AdventureContent() {
   const params = useSearchParams();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -207,5 +208,16 @@ DO NOT end or summarize the entire adventure yet, unless you detect the journey 
 
       </div>
     </main>
+  );
+}
+
+// Main component with Suspense boundary
+export default function AdventurePage() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen bg-[#222]">
+      <div className="text-white text-xl">Loading adventure...</div>
+    </div>}>
+      <AdventureContent />
+    </Suspense>
   );
 }
