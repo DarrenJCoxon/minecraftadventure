@@ -35,6 +35,8 @@ function AdventureContent() {
       const prompt = `
 You are crafting an epic, immersive Minecraft adventure for a brave hero named ${hero} exploring the mysterious ${world} biome.
 
+Ensure you write for an intelligent ten-year-old reader, using clear, descriptive language and a sense of wonder. Keep sentences short and punchy, with a mix of longer, flowing sentences for variety. Vocabulary should be age-appropriate, avoiding overly complex words or phrases.
+
 At every turn, write a *single* vivid story segment in second-person present tense (UK English), full of sensory details, emotion, danger, discovery, and character dialogue.
 
 At the end of each story segment, write a *single* flowing paragraph using phrases like "You might consider," "Perhaps you could," or "Possible next moves include" — to *naturally* suggest 2-4 interesting next actions, woven seamlessly into the story. These suggestions **must not** be numbered or bulleted.
