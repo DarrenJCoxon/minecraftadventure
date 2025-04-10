@@ -1,95 +1,66 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import type { APIResponse, APICallRequest } from "@/types/adventure";
+import { useEffect, useState, useRef } from 'react';
+import Link from "next/link";   // <--- IMPORTANT: add this import!
+import { useSearchParams } from 'next/navigation';
+import type { APIResponse, APICallRequest } from '@/types/adventure';
 
-export default function AdventurePage() {
+function AdventureContent() {
   const params = useSearchParams();
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const hero = params.get("hero") || "Steve";
-  const world = params.get("world") || "Overworld";
+  const hero = params.get('hero') || 'Steve';
+  const world = params.get('world') || 'Overworld';
 
   const [story, setStory] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
   const [ended, setEnded] = useState(false);
   const [turnCount, setTurnCount] = useState(0);
 
   useEffect(() => {
     if (story.length === 0) startStory();
+    setTimeout(() => inputRef.current?.focus(), 300);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function detectEnded(text: string): boolean {
+  function detectEnded(text: string) {
     return /adventure (is)? over/i.test(text);
   }
 
   async function startStory() {
     setLoading(true);
     try {
-        const prompt = `
-You are narrating an interactive Minecraft adventure inspired by Choose Your Own Adventure books.
+      const prompt = `
+You are crafting an epic, immersive Minecraft adventure for a brave hero named ${hero} exploring the mysterious ${world} biome.
 
-The player is called ${hero} and is exploring the ${world} biome.
+At every turn, write a *single* vivid story segment in second-person present tense (UK English), full of sensory details, emotion, danger, discovery, and character dialogue.
 
-At **every turn**, your reply **MUST INCLUDE TWO PARTS:**
+At the end of each story segment, write a *single* flowing paragraph using phrases like "You might consider," "Perhaps you could," or "Possible next moves include" — to *naturally* suggest 2-4 interesting next actions, woven seamlessly into the story. These suggestions **must not** be numbered or bulleted.
 
----
+The story should regularly introduce new intriguing characters (with unique personalities and motivations), moral dilemmas, revelations, and plot twists, balanced between danger and opportunity.
 
-**PART 1: STORY**
-
-Write a vivid story segment in second person ("you") and present tense, using UK English.  
-Include immersive detail, challenges, surprises, danger, setbacks, discoveries, and natural character dialogue.  
-Keep the story engaging with twists and tension.  
-
----
-
-**PART 2: SUGGESTED ACTIONS**
-
-Finish with **a paragraph** that begins with phrases like 
-
-"You might", or  
-"Perhaps you", or  
-"Possible next moves include"
-
-and then **suggest 2 to 4 natural next actions the player might try**, embedded smoothly as part of that sentence or paragraph.  
-Do **NOT** number or bullet these options.  
-Do **NOT** output them as a list.  
-This paragraph must **sound natural**.
-
----
-
-**Additional rules:**
-
-- Do **NOT** end or conclude the story quickly.  
-- Keep the adventure exciting and ongoing across many turns.  
-- Only after many rounds, if the player truly completes the adventure, then write **THE ADVENTURE IS OVER**.
-
----
-
-Begin now with the **opening scene** following this exact two-part format.
-`.trim();
-
+Begin _now_ with an atmospheric opening that combines immediate danger and hints at deeper mysteries.
+      `.trim();
 
       const req: APICallRequest = {
-        messages: [{ role: "system", content: prompt }],
         hero,
         world,
+        messages: [{ role: 'system', content: prompt }]
       };
 
-      const response = await fetch("/api/chat", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(req),
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(req)
       });
 
       const data: APIResponse = await response.json();
-
       if (detectEnded(data.message)) setEnded(true);
       setStory([data.message.trim()]);
       setTurnCount(1);
     } catch {
-      setStory(["Failed to start story."]);
+      setStory(['Failed to start story.']);
     } finally {
       setLoading(false);
     }
@@ -98,125 +69,150 @@ Begin now with the **opening scene** following this exact two-part format.
   async function send() {
     if (!input.trim() || ended) return;
     setLoading(true);
+
     const newTurnCount = turnCount + 1;
     setTurnCount(newTurnCount);
+    const userInput = input.trim();
+    setInput('');
 
     try {
       const prompt = `
-This is turn ${newTurnCount} of our ongoing Minecraft adventure with ${hero} in the ${world}.
+This is turn ${newTurnCount} of the immersive Minecraft adventure for ${hero} in the ${world} biome.
 
-Player just did: "${input}".
+Player just did or said: "${userInput}"
 
-Continue the interactive Minecraft adventure. Remember that at EVERY turn, your reply MUST include the TWO PARTS format:
+Continue telling the story in your natural, vivid style. 
 
----
+DO NOT use any "part 1" or "part 2" or section titles.
 
-**PART 1: STORY**
-Write a vivid story segment narrating what happens based on the player's action.
-Write in second person ("you") and present tense, using UK English.
-Include immersive detail, challenges, surprises, danger, setbacks, discoveries, and natural character dialogue.
-Keep the story engaging with twists and tension.
+Instead, produce ONE continuous narrative segment in second-person present tense, rich in detail, with character dialogue and emotional tension.
 
----
+End your reply with a *natural* flowing paragraph that begins with "Perhaps you could", "Maybe", or "Possible moves include", that seamlessly suggests 2-4 compelling next actions—without numbering, bullets, or format breaks.
 
-**PART 2: SUGGESTED ACTIONS**
-Finish with a paragraph that begins with phrases like "You might", "Perhaps you", or "Possible next moves include"
-and then suggest 2 to 4 natural next actions the player might try, embedded smoothly as part of that paragraph.
-Do NOT number or bullet these options.
-Do NOT output them as a list.
-This paragraph must sound natural.
+DO NOT end or summarize the entire adventure yet, unless you detect the journey is truly complete and should conclude with **THE ADVENTURE IS OVER**.
+      `.trim();
 
----
-
-**Additional rules:**
-- Do NOT end or conclude the story quickly.
-- Keep the adventure exciting and ongoing across many turns.
-- This is only turn ${newTurnCount}, so the adventure should continue with new challenges and discoveries.
-- Only after at least 10 rounds, if the player truly completes a major adventure goal, then write **THE ADVENTURE IS OVER**.
-`;
       const req: APICallRequest = {
-        messages: [{ role: "system", content: prompt }],
+        hero,
+        world,
+        messages: [{ role: 'system', content: prompt }]
       };
 
-      const response = await fetch("/api/chat", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(req),
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(req)
       });
 
       const data: APIResponse = await response.json();
-      setStory(prev => [...prev, `> ${input}\n`, data.message.trim()]);
-      setInput("");
+
+      setStory(prev => [...prev, `> ${userInput}\n`, data.message.trim()]);
       if (detectEnded(data.message)) setEnded(true);
+
+      inputRef.current?.focus();
     } catch {
-      setStory(prev => [...prev, "Error during chat."]);
+      setStory(prev => [...prev, 'Error during chat.']);
     } finally {
       setLoading(false);
     }
   }
 
   function restart() {
-    setStory([]);
     setEnded(false);
+    setStory([]);
     setTurnCount(0);
     startStory();
   }
 
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === 'Enter' && !loading) send();
+  }
+
   return (
-    <main className="min-h-screen bg-black flex flex-col items-center p-4">
-      <div className="w-full max-w-2xl flex flex-col flex-grow px-6 sm:px-10 md:px-16">
+    <div className="w-full max-w-3xl h-[90vh] flex flex-col px-6 py-4 relative">
 
-        <h1 className="text-3xl font-bold text-green-400 text-center my-6 drop-shadow-lg font-mono">
-          Minecraft Adventure
-        </h1>
-        
-        <div className="text-center mb-4">
-          <span className="bg-green-800 text-white px-3 py-1 rounded-full text-sm">
-            Turn: {turnCount}
-          </span>
-        </div>
+      {/* ---- "Choose your adventure" link top-left --- */}
+      <Link
+        href="/"
+        className="mb-4 self-start inline-block px-4 py-2 bg-[#4a7a46] text-white border-2 border-[#69aa64] hover:bg-[#3b8f3e] text-sm font-bold uppercase tracking-wider"
+      >
+        ← Choose your next adventure
+      </Link>
 
-        <div className="flex-1 mb-4 overflow-y-auto rounded-lg border-4 border-green-700 p-4 bg-gray-900 shadow-lg">
-          {story.map((block, idx) => (
-            <p key={idx} className="mb-4 whitespace-pre-wrap leading-relaxed">{block}</p>
-          ))}
-          {loading && <p className="italic text-gray-400">Loading...</p>}
-          {ended && (
-            <p className="font-bold text-center text-red-400 mb-4">🎉 The Adventure is Over! 🎉</p>
-          )}
-        </div>
+      <h1 className="text-4xl font-bold text-[#55FF55] text-center mb-4 drop-shadow font-mono">
+        MINECRAFT ADVENTURE
+      </h1>
 
-        {!ended && (
-          <div className="flex gap-2 mb-6">
-            <input
-              className="flex-grow p-2 rounded bg-gray-800 border border-gray-600 text-white"
-              placeholder="Type your next action..."
-              value={input}
-              disabled={loading}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={e => e.key === "Enter" && send()}
-            />
-            <button
-              onClick={send}
-              disabled={loading}
-              className="px-4 py-2 rounded bg-green-600 hover:bg-green-700 font-bold disabled:opacity-50"
-            >
-              Send
-            </button>
-          </div>
-        )}
-
-        {ended && (
-          <div className="flex justify-center mt-4 mb-6">
-            <button
-              onClick={restart}
-              className="px-6 py-2 rounded bg-green-600 hover:bg-green-700 font-bold shadow-md"
-            >
-              Restart
-            </button>
-          </div>
-        )}
-
+      <div className="text-center mb-3">
+        <span className="bg-[#3A3A3A] text-white px-4 py-2 inline-block border-2 border-[#1D1D1D] font-mono">
+          Turn: {turnCount}
+        </span>
       </div>
+
+      <div
+        className="
+          flex-1 overflow-y-auto border border-[#444] rounded
+          bg-[#1D1D1D] mb-3 shadow-inner
+        "
+        style={{ padding: '2rem 4rem' }}
+      >
+        {story.map((block, idx) => (
+          <p
+            key={idx}
+            className={`whitespace-pre-wrap leading-relaxed mb-4 ${
+              block.startsWith('>') ? 'text-[#FFAA00] font-semibold' : 'text-[#E8E8E8]'
+            }`}
+          >
+            {block}
+          </p>
+        ))}
+
+        {loading && <p className="italic text-[#AAAAAA]">Loading...</p>}
+        {ended && (
+          <div className="font-bold text-center text-[#FF5555] my-6 py-3 border-t-2 border-b-2 border-[#FF5555]">
+            🎉 The Adventure is Over! 🎉
+          </div>
+        )}
+      </div>
+
+      {!ended ? (
+        <div className="flex gap-2 mt-auto relative z-10 w-full">
+          <input
+            ref={inputRef}
+            className="mc-input flex-grow p-4 rounded focus:border-[#FFAA00] outline-none"
+            placeholder="Type your next action..."
+            value={input}
+            disabled={loading}
+            onChange={e => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            autoFocus
+          />
+          <button
+            disabled={loading}
+            onClick={send}
+            className="px-5 py-3 rounded font-bold text-white bg-[#4a7a46] border-2 border-[#69aa64] hover:bg-[#3b8f3e] disabled:opacity-50"
+          >
+            Send
+          </button>
+        </div>
+      ) : (
+        <div className="flex justify-center mt-4">
+          <button
+            onClick={restart}
+            className="px-8 py-3 rounded bg-[#4a7a46] text-white font-bold border-2 border-[#69aa64] hover:bg-[#3b8f3e]"
+          >
+            New Adventure
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function AdventurePage() {
+  return (
+    <main className="min-h-screen flex justify-center items-center bg-[#222] px-2">
+      <AdventureContent />
     </main>
   );
 }
