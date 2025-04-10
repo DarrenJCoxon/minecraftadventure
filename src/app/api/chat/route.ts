@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
     const body: APICallRequest = await request.json();
 
     // Changed default model to Quasar Alpha
-    const model = body.model ?? 'openrouter/quasar-alpha';
+    const model = body.model ?? 'deepseek/deepseek-chat-v3-0324:free';
     
     // Ensure the messages array is properly formatted
     if (!body.messages || !Array.isArray(body.messages) || body.messages.length === 0) {

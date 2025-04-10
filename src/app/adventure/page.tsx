@@ -40,19 +40,29 @@ function AdventureContent() {
   async function startStory() {
     setLoading(true);
     try {
-      const prompt = `
-You are crafting an epic, immersive Minecraft adventure for a brave hero named ${hero} exploring the mysterious ${world} biome.
+      // Replace the startStory() prompt with this enhanced narrative structure:
 
-Ensure you write for an intelligent ten-year-old reader, using clear, descriptive language and a sense of wonder. Keep sentences short and punchy, with a mix of longer, flowing sentences for variety. Vocabulary should be age-appropriate, avoiding overly complex words or phrases.
+    const prompt = `
+    You are crafting an epic, immersive Minecraft adventure for a brave hero named ${hero} exploring the mysterious ${world} biome.
 
-At every turn, write a *single* vivid story segment in second-person present tense (UK English), full of sensory details, emotion, danger, discovery, and character dialogue.
+    Follow this narrative structure to create a compelling beginning:
 
-At the end of each story segment, write a *single* flowing paragraph using phrases like "You might consider," "Perhaps you could," or "Possible next moves include" — to *naturally* suggest 2-4 interesting next actions, woven seamlessly into the story. These suggestions **must not** be numbered or bulleted.
+    1. OPENING IMAGE (First paragraph): Begin with a brief, peaceful moment showing the hero's normal life in their home village or base. Show a glimpse of their personality, skills, and everyday routine.
 
-The story should regularly introduce new intriguing characters (with unique personalities and motivations), moral dilemmas, revelations, and plot twists, balanced between danger and opportunity.
+    2. SET-UP (Second paragraph): Establish the world around them - describe the village, the people, or environment that represents "normal" for the hero. Hint at something that's missing in their life or a skill they're known for.
 
-Begin _now_ with an atmospheric opening that combines immediate danger and hints at deeper mysteries.
-      `.trim();
+    3. CATALYST/INCITING INCIDENT (Third paragraph): Introduce a disruption that shatters the equilibrium - perhaps a mysterious traveler arrives with news, a monster attack begins, a strange object is discovered, or an unusual weather event occurs.
+
+    4. CALL TO ACTION (Fourth paragraph): Present the hero with a clear invitation to adventure - someone asks for help, they discover a map, they witness something that demands investigation, or they're chosen for a special task.
+
+    Write in second-person present tense (UK English), full of sensory details, emotion, and character dialogue. The language should be vibrant but suitable for an intelligent ten-year-old, with clear words, short punchy sentences mixed with occasional longer, flowing ones.
+
+    End your response with a natural flowing paragraph suggesting 2-4 possible next actions that would represent the hero's CROSSING THE THRESHOLD into adventure. Begin this paragraph with phrases like "You might consider," "Perhaps you could," or "You feel drawn to" - these suggestions must be woven seamlessly into the narrative without numbering or bullet points.
+
+    As the adventure continues beyond this opening, regularly introduce new characters with distinct personalities, moral choices, revelations, and plot twists that balance danger with opportunity.
+
+    Begin NOW with this cinematically structured opening that establishes normalcy and then disrupts it with a compelling call to adventure. DO NOT include subheadings or summaries. Write in a single continuous narrative segment.
+    `.trim();
 
       // Initialize conversation history with the system prompt
       const initialMessages: Message[] = [{ role: "system", content: prompt }];
@@ -108,21 +118,30 @@ Begin _now_ with an atmospheric opening that combines immediate danger and hints
       const updatedHistory: Message[] = [...conversationHistory, { role: "user", content: userInput }];
       setConversationHistory(updatedHistory);
       
-      const prompt = `
+      // Replace the send() function prompt with this enhanced narrative continuation:
+
+    const prompt = `
 This is turn ${newTurnCount} of the immersive Minecraft adventure for ${hero} in the ${world} biome.
 
 Player just did or said: "${userInput}"
 
-Continue telling the story in your natural, vivid style. 
+Continue the adventure following these narrative principles:
+1. ACKNOWLEDGE the player's choice and show its immediate consequences
+2. DEVELOP the story by either introducing a new complication, revealing information, or deepening the challenge
+3. ESCALATE tension or raise the stakes in some way
+4. OFFER a moment of character development, world-building, or emotional resonance
 
-DO NOT use any "part 1" or "part 2" or section titles.
+Remember that good stories maintain a rhythm between:
+- Action and reflection
+- Tension and relief
+- Mystery and revelation
 
-Instead, produce ONE continuous narrative segment in second-person present tense, rich in detail, with character dialogue and emotional tension.
+Produce ONE continuous narrative segment in second-person present tense, rich in sensory details, with character dialogue and emotional weight. Write in clear, vivid language appropriate for an intelligent ten-year-old reader.
 
-End your reply with a *natural* flowing paragraph that begins with "Perhaps you could", "Maybe", or "Possible moves include", that seamlessly suggests 2-4 compelling next actions—without numbering, bullets, or format breaks.
+End your reply with a natural flowing paragraph that begins with "Perhaps you could," "Maybe," or "You feel a pull to..." that seamlessly suggests 2-4 compelling next actions—without numbering, bullets, or format breaks.
 
-DO NOT end or summarize the entire adventure yet, unless you detect the journey is truly complete and should conclude with **THE ADVENTURE IS OVER**.
-      `.trim();
+DO NOT end or summarize the entire adventure yet, unless you detect the journey is truly complete with the hero returning changed from their adventure, which should conclude with **THE ADVENTURE IS OVER**.
+`.trim();
 
       // Create a new messages array with the system prompt at the beginning
       const messages: Message[] = [
