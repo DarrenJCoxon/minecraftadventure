@@ -5,6 +5,13 @@ import Link from "next/link";
 import { useSearchParams } from 'next/navigation';
 import type { APIResponse, APICallRequest } from '@/types/adventure';
 
+type MessageRole = "user" | "assistant" | "system";
+
+interface Message {
+  role: MessageRole;
+  content: string;
+}
+
 // Create a separate component that uses useSearchParams
 function AdventureContent() {
   const params = useSearchParams();
@@ -18,6 +25,7 @@ function AdventureContent() {
   const [input, setInput] = useState('');
   const [ended, setEnded] = useState(false);
   const [turnCount, setTurnCount] = useState(0);
+  const [conversationHistory, setConversationHistory] = useState<Message[]>([]);
 
   useEffect(() => {
     if (story.length === 0) startStory();
@@ -46,10 +54,14 @@ The story should regularly introduce new intriguing characters (with unique pers
 Begin _now_ with an atmospheric opening that combines immediate danger and hints at deeper mysteries.
       `.trim();
 
+      // Initialize conversation history with the system prompt
+      const initialMessages: Message[] = [{ role: "system", content: prompt }];
+      setConversationHistory(initialMessages);
+
       const req: APICallRequest = {
         hero,
         world,
-        messages: [{ role: 'system', content: prompt }]
+        messages: initialMessages
       };
 
       const response = await fetch('/api/chat', {
@@ -58,12 +70,25 @@ Begin _now_ with an atmospheric opening that combines immediate danger and hints
         body: JSON.stringify(req)
       });
 
+      if (!response.ok) {
+        throw new Error(`API returned status ${response.status}`);
+      }
+
       const data: APIResponse = await response.json();
+      
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      
       if (detectEnded(data.message)) setEnded(true);
       setStory([data.message.trim()]);
       setTurnCount(1);
-    } catch {
-      setStory(['Failed to start story.']);
+      
+      // Add assistant's response to conversation history
+      setConversationHistory(prev => [...prev, { role: "assistant", content: data.message.trim() }]);
+    } catch (error) {
+      console.error('Error starting story:', error);
+      setStory(['Failed to start story. Please try again.']);
     } finally {
       setLoading(false);
     }
@@ -79,6 +104,10 @@ Begin _now_ with an atmospheric opening that combines immediate danger and hints
     setInput('');
 
     try {
+      // Add user's input to conversation history
+      const updatedHistory: Message[] = [...conversationHistory, { role: "user", content: userInput }];
+      setConversationHistory(updatedHistory);
+      
       const prompt = `
 This is turn ${newTurnCount} of the immersive Minecraft adventure for ${hero} in the ${world} biome.
 
@@ -95,10 +124,16 @@ End your reply with a *natural* flowing paragraph that begins with "Perhaps you 
 DO NOT end or summarize the entire adventure yet, unless you detect the journey is truly complete and should conclude with **THE ADVENTURE IS OVER**.
       `.trim();
 
+      // Create a new messages array with the system prompt at the beginning
+      const messages: Message[] = [
+        { role: "system", content: prompt },
+        ...updatedHistory.filter(msg => msg.role !== "system") // Filter out any previous system messages
+      ];
+
       const req: APICallRequest = {
         hero,
         world,
-        messages: [{ role: 'system', content: prompt }]
+        messages: messages
       };
 
       const response = await fetch('/api/chat', {
@@ -107,14 +142,29 @@ DO NOT end or summarize the entire adventure yet, unless you detect the journey 
         body: JSON.stringify(req)
       });
 
-      const data: APIResponse = await response.json();
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('API response error:', errorText);
+        throw new Error(`API returned ${response.status}: ${errorText}`);
+      }
 
+      const data: APIResponse = await response.json();
+      
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      // Add assistant's response to conversation history
+      setConversationHistory(prev => [...prev, { role: "assistant", content: data.message.trim() }]);
+      
       setStory(prev => [...prev, `> ${userInput}\n`, data.message.trim()]);
       if (detectEnded(data.message)) setEnded(true);
 
       inputRef.current?.focus();
-    } catch {
-      setStory(prev => [...prev, 'Error during chat.']);
+    } catch (error: unknown) { // Using unknown to avoid using any
+      console.error('Error during chat:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      setStory(prev => [...prev, `Error during chat: ${errorMessage}`]);
     } finally {
       setLoading(false);
     }
@@ -124,6 +174,7 @@ DO NOT end or summarize the entire adventure yet, unless you detect the journey 
     setEnded(false);
     setStory([]);
     setTurnCount(0);
+    setConversationHistory([]); // Clear conversation history
     startStory();
   }
 

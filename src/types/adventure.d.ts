@@ -34,5 +34,5 @@ export interface UserChoice {
     message: string;           // New story text response
     imageUrl?: string;         // Optional image describing the scene
     choices?: UserChoice[];    // Next choices
+    error?: string;            // Optional error message
   }
-  
