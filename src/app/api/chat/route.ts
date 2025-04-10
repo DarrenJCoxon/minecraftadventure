@@ -7,8 +7,8 @@ export async function POST(request: NextRequest) {
   try {
     const body: APICallRequest = await request.json();
 
-    // Choose model: incoming body override, or default to DeepSeek v3 chat free
-    const model = body.model ?? 'deepseek/deepseek-chat-v3-0324:free';
+    // Changed default model to Quasar Alpha
+    const model = body.model ?? 'openrouter/quasar-alpha';
 
     const apiResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',

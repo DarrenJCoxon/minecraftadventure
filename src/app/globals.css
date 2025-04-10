@@ -2,9 +2,169 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Optional: custom fontface, or import a MC-like font */
+/* Import Minecraft font */
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+/* Define minecraft UI colors */
+:root {
+  --mc-green: #44aa44;
+  --mc-dark-green: #2d6e2d;
+  --mc-gray: #373737;
+  --mc-dark-gray: #1d1d1d;
+  --mc-light-gray: #4a4a4a;
+  --mc-dirt: #8b6d3f;
+  --mc-stone: #7e7e7e;
+}
 
 body {
   font-family: 'VT323', monospace;
+  background-color: #282828;
+  color: white;
+  line-height: 1.5;
+  image-rendering: pixelated;
+}
+
+/* Minecraft button styling */
+.mc-button {
+  padding: 0.75rem 1rem; /* py-3 px-4 */
+  color: white;
+  font-weight: bold; 
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.025em; /* tracking-wide */
+  background-color: #4a7a46;
+  border-bottom-width: 4px;
+  border-top-width: 2px;
+  border-left-width: 2px;
+  border-right-width: 2px;
+  border-bottom-color: #2d4b2b;
+  border-top-color: #69aa64;
+  border-left-color: #69aa64;
+  border-right-color: #2d4b2b;
+  border-radius: 0; /* rounded-none */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+  transition: all 0.2s;
+}
+
+.mc-button:hover {
+  background-color: #3b8f3e;
+  border-top-color: #87d682;
+  border-left-color: #87d682;
+}
+
+.mc-button:active {
+  transform: translateY(1px);
+  border-bottom-width: 2px;
+  border-top-width: 4px;
+}
+
+/* Minecraft-style input element */
+.mc-input {
+  background-color: #373737;
+  color: white;
+  padding: 0.5rem 0.75rem; /* py-2 px-3 */
+  border-width: 2px;
+  border-bottom-width: 4px;
+  border-top-width: 2px;
+  border-left-width: 2px;
+  border-right-width: 2px;
+  border-bottom-color: #1d1d1d;
+  border-top-color: #4a4a4a;
+  border-left-color: #4a4a4a;
+  border-right-color: #1d1d1d;
+}
+
+.mc-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 1px #69aa64;
+}
+
+/* Minecraft panel styling */
+.mc-panel {
+  background-color: #3A3A3A;
+  border-radius: 0;
+  border-width: 4px;
+  border-color: #1D1D1D;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+  padding: 1rem; /* p-4 */
+}
+
+/* Blocky Minecraft-like borders */
+.mc-border {
+  border-width: 2px;
+  border-bottom-width: 4px;
+  border-top-width: 2px;
+  border-left-width: 2px;
+  border-right-width: 2px;
+  border-bottom-color: #1D1D1D;
+  border-top-color: #4A4A4A;
+  border-left-color: #4A4A4A;
+  border-right-color: #1D1D1D;
+}
+
+/* Minecraft text styles */
+.mc-text-title {
+  color: #55FF55;
+  font-weight: bold;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.8));
+}
+
+/* Create a pixel-art grid background */
+.pixel-bg {
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M0 0h40v40H0V0zm1 1h38v38H1V1z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 40px 40px;
+}
+
+/* Animation for Minecraft hover effects */
+@keyframes mc-hover {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.mc-hover:hover {
+  animation: mc-hover 0.3s ease-in-out;
+}
+
+/* Loading bar animation for adventure page */
+@keyframes loadingBar {
+  0% { width: 0%; }
+  50% { width: 70%; }
+  80% { width: 90%; }
+  100% { width: 100%; }
+}
+
+/* Text typing animation */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+/* Minecraft-style text shadow */
+.mc-text-shadow {
+  text-shadow: 2px 2px 0 #000000;
+}
+
+/* Custom scrollbar for the chat container */
+.mc-scrollbar::-webkit-scrollbar {
+  width: 12px;
+}
+
+.mc-scrollbar::-webkit-scrollbar-track {
+  background: #1D1D1D;
+}
+
+.mc-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #4a4a4a;
+  border: 2px solid #1D1D1D;
+}
+
+.mc-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #5D8A57;
 }
