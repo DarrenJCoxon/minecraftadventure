@@ -171,18 +171,39 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #f8f8f8; /* Light background */
 }
 
-/* Adventure text styling with black text */
+/* Adventure text styling with black text - FIXED paragraph handling */
 .adventure-text {
   color: #222; /* Dark text color */
   text-shadow: none; /* Remove text shadow */
   font-size: 1.5rem;
   line-height: 1.6;
+  text-align: left;
+  max-width: 65ch; /* Limit line length for better readability */
+  margin: 0 auto; /* Center the text block */
+}
+
+/* Only use pre-line for proper spacing, not for newline preservation */
+.whitespace-pre-line {
+  white-space: pre-wrap; /* Changed from pre-line to pre-wrap for better control */
+}
+
+/* Properly handle spacing between elements in text */
+.adventure-text > span {
+  display: block;
+  margin-bottom: 1rem;
 }
 
 /* User input styling */
 .border-l-4.border-\[\#44bd32\].bg-black.bg-opacity-80 {
   background-color: #f0f8f0 !important; /* Light green background */
   border-color: #44bd32 !important;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.border-l-4.border-\[\#44bd32\].bg-black.bg-opacity-80:hover {
+  background-color: rgba(0, 0, 0, 0.9) !important;
+  box-shadow: 0 2px 8px rgba(68, 189, 50, 0.3);
 }
 
 .border-l-4.border-\[\#44bd32\].bg-black.bg-opacity-80 p {
@@ -199,10 +220,53 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #f0f8f0; /* Light green tinted background */
   padding: 1.25rem;
   margin: 1.5rem 0;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.adventure-options-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  border-bottom: 2px solid #44bd32;
+  padding-bottom: 0.5rem;
+}
+
+.adventure-options-square {
+  width: 1rem;
+  height: 1rem;
+  background-color: #44bd32;
+  margin-right: 0.5rem;
+}
+
+.adventure-options-text {
+  color: #44bd32;
+  font-weight: bold;
+  font-size: 1.25rem;
+  text-transform: uppercase;
 }
 
 .adventure-options p {
   color: #222 !important; /* Dark text */
+}
+
+/* Style the input placeholder with larger text */
+.bg-\[\#c6c6c6\].text-2xl::placeholder {
+  color: #555;
+  opacity: 0.8;
+}
+
+/* Animated loading dots */
+@keyframes dots-animation {
+  0% { content: '.'; }
+  33% { content: '..'; }
+  66% { content: '...'; }
+  100% { content: '.'; }
+}
+
+.loading-dots::after {
+  content: '...';
+  animation: dots-animation 1.5s infinite;
 }
 
 /* For mobile screens, reduce the side margins slightly */

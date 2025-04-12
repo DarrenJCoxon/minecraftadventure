@@ -56,6 +56,17 @@ function AdventureContent() {
     progressPercent: 0,
     isNearingEnd: false
   });
+  const [loadingDots, setLoadingDots] = useState('...');
+
+  // Animate loading dots
+  useEffect(() => {
+    if (loading) {
+      const interval = setInterval(() => {
+        setLoadingDots(dots => dots === '...' ? '.' : dots === '.' ? '..' : '...');
+      }, 400);
+      return () => clearInterval(interval);
+    }
+  }, [loading]);
 
   // Load narrative data
   useEffect(() => {
@@ -113,6 +124,58 @@ function AdventureContent() {
 
   function detectEnded(text: string) {
     return /adventure (is)? over/i.test(text);
+  }
+
+  // FIXED: Function to break text into reasonable paragraphs
+  function breakIntoParagraphs(text: string): string {
+    if (!text) return text;
+    
+    // If the text already has paragraphs (via newlines), respect them
+    if (text.includes('\n\n')) {
+      return text;
+    }
+    
+    // If the text is short, return as is
+    if (text.length < 400) {
+      return text;
+    }
+    
+    // Split by existing single newlines first
+    const initialSplit = text.split(/\n/);
+    
+    // Process each existing paragraph
+    const result = initialSplit.map(paragraph => {
+      // Skip short paragraphs or user inputs that start with >
+      if (paragraph.trim().length < 250 || paragraph.trim().startsWith('>')) {
+        return paragraph;
+      }
+      
+      // Split into sentences
+      const sentences = paragraph.match(/[^.!?]+[.!?]+/g) || [paragraph];
+      
+      // Group sentences into reasonable paragraphs (4-5 sentences per paragraph)
+      const newParagraphs = [];
+      let currentParagraph = '';
+      
+      for (const sentence of sentences) {
+        if (currentParagraph.length + sentence.length > 350) {
+          newParagraphs.push(currentParagraph.trim());
+          currentParagraph = sentence;
+        } else {
+          currentParagraph += sentence;
+        }
+      }
+      
+      if (currentParagraph.trim()) {
+        newParagraphs.push(currentParagraph.trim());
+      }
+      
+      // Join with single newlines, not double
+      return newParagraphs.join('\n');
+    });
+    
+    // Join with single newlines, not double
+    return result.join('\n');
   }
 
   async function startStory() {
@@ -191,7 +254,8 @@ function AdventureContent() {
       }
       
       if (detectEnded(data.message)) setEnded(true);
-      setStory([data.message.trim()]);
+      // Apply paragraph breaking to the response
+      setStory([breakIntoParagraphs(data.message.trim())]);
       setTurnCount(1);
       
       // Add assistant's response to conversation history
@@ -298,8 +362,8 @@ DO NOT end or summarize the entire adventure yet, unless you detect the journey 
       // Add assistant's response to conversation history
       setConversationHistory(prev => [...prev, { role: "assistant", content: data.message.trim() }]);
       
-      // Add the AI response to the story
-      setStory(prev => [...prev, data.message.trim()]);
+      // Apply paragraph breaking to the response and add it to the story
+      setStory(prev => [...prev, breakIntoParagraphs(data.message.trim())]);
       if (detectEnded(data.message)) setEnded(true);
 
       // Update story progress through narrative engine
@@ -508,7 +572,7 @@ DO NOT end or summarize the entire adventure yet, unless you detect the journey 
                   </div>
                 ) : (
                   <div className="mb-8">
-                    <p className="adventure-text">
+                    <p className="adventure-text whitespace-pre-line">
                       {formatStoryText(block)}
                     </p>
                   </div>
@@ -519,7 +583,9 @@ DO NOT end or summarize the entire adventure yet, unless you detect the journey 
             {loading && (
               <div className="mt-6 text-center">
                 <div className="inline-block w-16 h-16 border-4 border-[#44bd32] border-t-transparent rounded-full animate-spin"></div>
-                <p className="text-[#555555] mt-4 text-xl">The adventure continues...</p>
+                <p className="text-[#555555] mt-4 text-xl">
+                  {turnCount === 0 ? "Your adventure awaits" : "Your adventure continues"}{loadingDots}
+                </p>
               </div>
             )}
 
@@ -544,8 +610,8 @@ DO NOT end or summarize the entire adventure yet, unless you detect the journey 
           <div className="p-6 bg-black bg-opacity-80 border-t-[3px] border-[#636363] flex gap-3">
             <input
               ref={inputRef}
-              className="flex-grow p-4 bg-[#c6c6c6] border-3 border-[#555555] text-[#111] text-xl font-['VT323'] focus:outline-none focus:border-[#44bd32]"
-              placeholder="What will you do next...?"
+              className="flex-grow p-4 bg-[#c6c6c6] border-3 border-[#555555] text-[#111] text-2xl font-['VT323'] focus:outline-none focus:border-[#44bd32]"
+              placeholder="What will you do next?"
               value={input}
               disabled={loading}
               onChange={e => setInput(e.target.value)}
