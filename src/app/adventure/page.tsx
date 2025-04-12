@@ -32,25 +32,6 @@ interface Storyline {
   };
 }
 
-// Progress Bar Component
-function ProgressBar({ percent, phase }: { percent: number, phase: string }) {
-  return (
-    <div className="mb-3 w-full">
-      <div className="flex justify-between items-center mb-1">
-        <span className="text-xs text-[#5a5a5a]">Adventure Progress</span>
-        <span className="text-xs text-[#5a5a5a]">{percent}%</span>
-      </div>
-      <div className="w-full bg-[#d9d2bc] h-2 rounded-full overflow-hidden">
-        <div 
-          className="h-full bg-[#7b9e67]" 
-          style={{ width: `${percent}%` }}
-        ></div>
-      </div>
-      <div className="text-xs text-[#5a5a5a] mt-1 italic">Current Phase: {phase}</div>
-    </div>
-  );
-}
-
 // Create a separate component that uses useSearchParams
 function AdventureContent() {
   const params = useSearchParams();
@@ -380,9 +361,12 @@ DO NOT end or summarize the entire adventure yet, unless you detect the journey 
         return (
           <>
             <span>{mainText}</span>
-            <div className="suggestions-container mt-6 mb-2 p-4 border-l-4 border-[#7b9e67] bg-[#f0ece0]">
-              <h4 className="font-bold text-[#4a623e] mb-2">Options:</h4>
-              <p className="text-[#333] italic">{suggestionText}</p>
+            <div className="adventure-options">
+              <div className="adventure-options-header">
+                <div className="adventure-options-square"></div>
+                <h4 className="adventure-options-text">Options:</h4>
+              </div>
+              <p>{suggestionText}</p>
             </div>
           </>
         );
@@ -392,75 +376,139 @@ DO NOT end or summarize the entire adventure yet, unless you detect the journey 
     return text;
   };
 
+  // Get hero block icon
+  const getHeroBlock = () => {
+    switch(hero) {
+      case 'Steve': return <div className="minecraft-block" style={{backgroundColor: "#F9C49A", border: "2px solid #555", width: "24px", height: "24px", marginRight: "8px"}}></div>;
+      case 'Alex': return <div className="minecraft-block" style={{backgroundColor: "#F9AA7C", border: "2px solid #555", width: "24px", height: "24px", marginRight: "8px"}}></div>;
+      case 'Zombie': return <div className="minecraft-block" style={{backgroundColor: "#529456", border: "2px solid #555", width: "24px", height: "24px", marginRight: "8px"}}></div>;
+      case 'Skeleton': return <div className="minecraft-block" style={{backgroundColor: "#C6C6C6", border: "2px solid #555", width: "24px", height: "24px", marginRight: "8px"}}></div>;
+      default: return <div className="minecraft-block" style={{backgroundColor: "#F9C49A", border: "2px solid #555", width: "24px", height: "24px", marginRight: "8px"}}></div>;
+    }
+  };
+
+  // Get world block icon
+  const getWorldBlock = () => {
+    switch(world) {
+      case 'Overworld': return <div className="minecraft-block-grass" style={{width: "24px", height: "24px", marginRight: "8px"}}></div>;
+      case 'Nether': return <div className="minecraft-block" style={{backgroundColor: "#B02E26", border: "2px solid #555", width: "24px", height: "24px", marginRight: "8px"}}></div>;
+      case 'The End': return <div className="minecraft-block" style={{backgroundColor: "#2A193E", border: "2px solid #555", width: "24px", height: "24px", marginRight: "8px"}}></div>;
+      default: return <div className="minecraft-block-grass" style={{width: "24px", height: "24px", marginRight: "8px"}}></div>;
+    }
+  };
+
+  // Get storyline info
+  const getStorylineInfo = () => {
+    if (!storylineData) return { name: "Classic Adventure", inspiration: null };
+    
+    return {
+      name: storylineData.name,
+      inspiration: storylineData.inspirations?.[0] || null
+    };
+  };
+
+  const storylineInfo = getStorylineInfo();
+
   return (
-    <main className="min-h-screen bg-[#f5f5dc] text-[#333]">
+    <main className="min-h-screen minecraft-bg">
       <div className="container mx-auto max-w-5xl flex flex-col min-h-screen">
-        {/* Header with title and back button */}
-        <header className="py-4 border-b border-[#e5dcc3] flex items-center justify-between">
-          <Link
-            href="/"
-            className="bg-[#7b9e67] text-white py-2 px-4 rounded-md tracking-wide uppercase text-sm hover:bg-[#4a623e] transition-colors shadow-sm"
-          >
-            ← New Adventure
-          </Link>
+        {/* Header */}
+        <header className="bg-black bg-opacity-60 border-b-[3px] border-[#636363]">
+          {/* Title and back button */}
+          <div className="py-4 flex items-center justify-between px-6">
+            <Link
+              href="/"
+              className="minecraft-button text-sm px-4 py-2"
+            >
+              ← NEW ADVENTURE
+            </Link>
+            
+            <h1 className="minecraft-title text-2xl md:text-3xl">
+              MINECRAFT ADVENTURE
+            </h1>
+            
+            <div className="text-white text-xl md:text-2xl">
+              Turn {turnCount}
+            </div>
+          </div>
           
-          <h1 className="text-[#4a623e] text-3xl font-serif">
-            Minecraft Adventure
-          </h1>
-          
-          <div className="text-[#5a5a5a]">
-            Turn {turnCount}
+          {/* Adventure info bar */}
+          <div className="flex justify-center py-4 px-6 border-t-[3px] border-[#636363] bg-black bg-opacity-40 flex-wrap">
+            <div className="px-6 py-2 mx-2 flex items-center">
+              {getHeroBlock()}
+              <span className="text-[#AAAAAA] mr-1">Hero:</span>
+              <span className="text-white font-bold">{hero}</span>
+            </div>
+            
+            <div className="px-6 py-2 mx-2 flex items-center">
+              {getWorldBlock()}
+              <span className="text-[#AAAAAA] mr-1">World:</span>
+              <span className="text-white font-bold">{world}</span>
+            </div>
+            
+            {storylineInfo && (
+              <div className="px-6 py-2 mx-2 flex items-center">
+                <div className="minecraft-block-stone" style={{width: "24px", height: "24px", marginRight: "8px"}}></div>
+                <span className="text-white font-bold">{storylineInfo.name}</span>
+                {storylineInfo.inspiration && (
+                  <span className="text-[#AAAAAA] text-sm ml-2 italic">Inspired by: {storylineInfo.inspiration}</span>
+                )}
+              </div>
+            )}
           </div>
         </header>
-        
-        {/* Adventure info bar - simplified with increased spacing */}
-        <div className="flex justify-center py-3 text-sm border-b border-[#e5dcc3]">
-          <div className="px-6">
-            Hero: <span className="text-[#7b5427] font-medium">{hero}</span>
-          </div>
-          <div className="px-6">
-            World: <span className="text-[#4a623e] font-medium">{world}</span>
-          </div>
-          
-          {/* Storyline info - simplified with increased spacing */}
-          {storylineData && (
-            <div className="px-6">
-              <span className="text-[#4a4a6e] font-medium">{storylineData.name}</span>
-              {storylineData.inspirations && (
-                <span className="text-[#5a5a5a] text-xs italic ml-2">Inspired by: {storylineData.inspirations[0]}</span>
-              )}
+
+        {/* Progress Bar */}
+        <div className="px-6 py-4">
+          <div className="mb-4">
+            <div className="flex justify-between items-center mb-2">
+              <div className="flex items-center">
+                <div className="w-3 h-3 bg-[#555555] mr-2"></div>
+                <span className="text-base md:text-lg font-bold text-[#44bd32] uppercase">Adventure Progress</span>
+              </div>
+              <div className="bg-[#44bd32] px-3 py-1 text-white text-base font-bold">
+                {storyProgress.progressPercent}%
+              </div>
             </div>
-          )}
+            
+            <div className="w-full h-6 border-4 border-black overflow-hidden bg-[#c6c6c6]">
+              <div 
+                className="h-full bg-[#44bd32]" 
+                style={{ 
+                  width: `${storyProgress.progressPercent}%`,
+                  backgroundImage: "linear-gradient(45deg, rgba(255,255,255,0.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.15) 75%, transparent 75%)",
+                  backgroundSize: "20px 20px"
+                }}
+              ></div>
+            </div>
+            
+            <div className="flex items-center mt-3">
+              <div className="w-3 h-3 bg-[#555555] mr-2"></div>
+              <span className="text-base md:text-lg font-bold text-[#44bd32] uppercase">Current Quest: {storyProgress.currentPhase}</span>
+            </div>
+          </div>
         </div>
 
-        {/* Progress Bar in a container with proper margins */}
-        <div className="px-4 py-2">
-          <ProgressBar 
-            percent={storyProgress.progressPercent} 
-            phase={storyProgress.currentPhase} 
-          />
-        </div>
-
-        {/* Story container - paper-like appearance with ample margins */}
+        {/* Story container */}
         <div
           ref={storyContainerRef}
-          className="flex-1 overflow-y-auto bg-[#fffcf0]"
+          className="flex-1 overflow-y-auto bg-black bg-opacity-60 border-t-[3px] border-[#636363]"
         >
-          {/* Content with generous margins */}
-          <div className="max-w-3xl mx-auto py-8 px-16">
+          {/* Content */}
+          <div className="story-container">
             {story.map((block, idx) => (
-              <div key={idx} className="mb-6">
+              <div key={idx} className="mb-8">
                 {block.startsWith('>') ? (
-                  <div className="my-4">
-                    <div className="bg-[#f0ece0] py-2 px-4 border-l-4 border-[#7b9e67]">
-                      <p>
-                        <span className="font-medium text-[#4a623e]">You decide to:</span> {block.substring(2)}
+                  <div className="my-6">
+                    <div className="border-l-4 border-[#44bd32] bg-black bg-opacity-80 p-4">
+                      <p className="text-white text-xl">
+                        <span className="font-bold text-[#44bd32]">You decide to:</span> {block.substring(2)}
                       </p>
                     </div>
                   </div>
                 ) : (
-                  <div className="mb-6">
-                    <p className="leading-relaxed whitespace-pre-wrap">
+                  <div className="mb-8">
+                    <p className="adventure-text">
                       {formatStoryText(block)}
                     </p>
                   </div>
@@ -469,20 +517,22 @@ DO NOT end or summarize the entire adventure yet, unless you detect the journey 
             ))}
 
             {loading && (
-              <div className="mt-4 text-center">
-                <div className="inline-block w-12 h-12 border-4 border-[#7b9e67] border-t-transparent rounded-full animate-spin"></div>
-                <p className="italic text-[#757575] mt-2">The adventure continues...</p>
+              <div className="mt-6 text-center">
+                <div className="inline-block w-16 h-16 border-4 border-[#44bd32] border-t-transparent rounded-full animate-spin"></div>
+                <p className="text-[#555555] mt-4 text-xl">The adventure continues...</p>
               </div>
             )}
 
             {ended && (
-              <div className="text-center my-8 py-6">
-                <div className="font-bold text-2xl mb-4 bg-[#f0d78a] text-[#7b5427] py-3 px-6 inline-block transform -rotate-1 border-2 border-[#e0c77a]">
+              <div className="text-center my-12 py-8">
+                <div className="font-bold text-3xl mb-6 bg-[#44bd32] text-white py-4 px-8 inline-block border-4 border-black">
                   🎉 THE ADVENTURE IS OVER! 🎉
                 </div>
-                <p className="text-[#757575] italic mt-4">Your journey has reached its conclusion. What an adventure!</p>
-                <div className="w-16 h-16 mx-auto mt-6 bg-[#7b5427] rounded-sm relative">
-                  <div className="absolute inset-2 bg-[#8b6437] opacity-60"></div>
+                <p className="text-[#555555] mt-6 text-xl">Your journey has reached its conclusion. What an adventure!</p>
+                <div className="flex justify-center gap-10 mt-10">
+                  <div className="minecraft-block-dirt" style={{width: "50px", height: "50px"}}></div>
+                  <div className="minecraft-block-grass" style={{width: "50px", height: "50px"}}></div>
+                  <div className="minecraft-block-stone" style={{width: "50px", height: "50px"}}></div>
                 </div>
               </div>
             )}
@@ -491,10 +541,10 @@ DO NOT end or summarize the entire adventure yet, unless you detect the journey 
 
         {/* Input area */}
         {!ended ? (
-          <div className="p-4 border-t border-[#e5dcc3] flex gap-2">
+          <div className="p-6 bg-black bg-opacity-80 border-t-[3px] border-[#636363] flex gap-3">
             <input
               ref={inputRef}
-              className="flex-grow p-3 bg-[#fffcf0] border border-[#e5dcc3] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#7b9e67] focus:border-transparent"
+              className="flex-grow p-4 bg-[#c6c6c6] border-3 border-[#555555] text-[#111] text-xl font-['VT323'] focus:outline-none focus:border-[#44bd32]"
               placeholder="What will you do next...?"
               value={input}
               disabled={loading}
@@ -505,18 +555,18 @@ DO NOT end or summarize the entire adventure yet, unless you detect the journey 
             <button
               disabled={loading}
               onClick={send}
-              className="bg-[#7b9e67] text-white py-2 px-6 rounded-md hover:bg-[#4a623e] transition-colors shadow-sm"
+              className="minecraft-button text-xl px-8"
             >
               {loading ? '...' : 'SEND'}
             </button>
           </div>
         ) : (
-          <div className="p-4 border-t border-[#e5dcc3] flex justify-center">
+          <div className="p-6 bg-black bg-opacity-80 border-t-[3px] border-[#636363] flex justify-center">
             <button
               onClick={restart}
-              className="bg-[#7b9e67] text-white py-3 px-8 text-lg rounded-md hover:bg-[#4a623e] transition-colors shadow-sm"
+              className="minecraft-button text-xl px-10 py-4"
             >
-              Start New Adventure
+              NEW ADVENTURE
             </button>
           </div>
         )}
@@ -529,10 +579,10 @@ DO NOT end or summarize the entire adventure yet, unless you detect the journey 
 export default function AdventurePage() {
   return (
     <Suspense fallback={
-      <div className="flex flex-col items-center justify-center min-h-screen bg-[#f5f5dc]">
-        <h1 className="text-3xl font-bold mb-6 text-[#4a623e]">MINECRAFT ADVENTURE</h1>
-        <div className="inline-block w-16 h-16 border-4 border-[#7b9e67] border-t-transparent rounded-full animate-spin"></div>
-        <div className="text-xl mt-6 text-[#333]">Preparing your adventure...</div>
+      <div className="flex flex-col items-center justify-center min-h-screen minecraft-bg">
+        <h1 className="minecraft-title text-4xl mb-8">MINECRAFT ADVENTURE</h1>
+        <div className="inline-block w-20 h-20 border-4 border-[#44bd32] border-t-transparent rounded-full animate-spin"></div>
+        <div className="text-2xl mt-8 text-white">Preparing your adventure...</div>
       </div>
     }>
       <AdventureContent />

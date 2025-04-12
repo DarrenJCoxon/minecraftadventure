@@ -11,49 +11,89 @@ interface DropdownOption {
   inspirations?: string[];
 }
 
-// Compact Dropdown Component
-function CompactDropdown({ 
+// Minecraft Dropdown Component
+function MinecraftDropdown({ 
   label, 
   options, 
   selected, 
   onChange,
-  colorClass
+  type = "default"
 }: { 
   label: string; 
   options: DropdownOption[]; 
   selected: string;
   onChange: (id: string) => void;
-  colorClass: string;
+  type?: "hero" | "world" | "adventure" | "default";
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const selectedOption = options.find(option => option.id === selected) || options[0];
 
+  // Get background color based on type
+  const getBackgroundColor = () => {
+    switch(type) {
+      case "hero": return "bg-[#55AAFF]";
+      case "world": return "bg-[#7BC253]";
+      case "adventure": return "bg-[#888888]";
+      default: return "bg-[#7d7d7d]";
+    }
+  };
+
+  // Get block icon based on selected option
+  const getBlockIcon = () => {
+    if (type === "hero") {
+      switch(selected) {
+        case "Steve": return <div className="minecraft-block" style={{backgroundColor: "#F9C49A", border: "2px solid #555"}}></div>;
+        case "Alex": return <div className="minecraft-block" style={{backgroundColor: "#F9AA7C", border: "2px solid #555"}}></div>;
+        case "Zombie": return <div className="minecraft-block" style={{backgroundColor: "#529456", border: "2px solid #555"}}></div>;
+        case "Skeleton": return <div className="minecraft-block" style={{backgroundColor: "#C6C6C6", border: "2px solid #555"}}></div>;
+        default: return <div className="minecraft-block" style={{backgroundColor: "#FFA500", border: "2px solid #555"}}></div>;
+      }
+    } else if (type === "world") {
+      switch(selected) {
+        case "Overworld": return <div className="minecraft-block-grass"></div>;
+        case "Nether": return <div className="minecraft-block" style={{backgroundColor: "#B02E26", border: "2px solid #555"}}></div>;
+        case "The End": return <div className="minecraft-block" style={{backgroundColor: "#2A193E", border: "2px solid #555"}}></div>;
+        case "Jungle": return <div className="minecraft-block" style={{backgroundColor: "#2D7F32", border: "2px solid #555"}}></div>;
+        case "Ice Plains": return <div className="minecraft-block" style={{backgroundColor: "#80B9FC", border: "2px solid #555"}}></div>;
+        case "Desert Temple": return <div className="minecraft-block" style={{backgroundColor: "#E6CE82", border: "2px solid #555"}}></div>;
+        default: return <div className="minecraft-block-grass"></div>;
+      }
+    } else if (type === "adventure") {
+      return <div className="minecraft-block" style={{backgroundColor: "#AAAAAA", border: "2px solid #555"}}></div>;
+    }
+    
+    return <div className="minecraft-block-stone"></div>;
+  };
+
   return (
-    <div className="mb-6 relative">
-      <label className="block text-[#4a623e] font-bold mb-2 text-lg">
-        {label}
-      </label>
-      
-      <div 
-        onClick={() => setIsOpen(!isOpen)} 
-        className={`cursor-pointer ${colorClass} flex items-center justify-between p-4 rounded-md shadow-sm transition-all hover:shadow-md`}
-      >
-        <div className="flex-1">
-          <h3 className="font-bold text-white text-lg">{selectedOption.name}</h3>
-          <p className="text-white/90 text-sm mt-1">{selectedOption.description}</p>
-          {selectedOption.inspirations && (
-            <p className="text-white/70 text-xs mt-1 italic">
-              Inspired by: {selectedOption.inspirations[0]}
-            </p>
-          )}
+    <div className="relative mb-6">
+      <div className="minecraft-dropdown">
+        <div className="minecraft-dropdown-header">
+          {label}
         </div>
-        <div className="text-white text-xl ml-3">
-          {isOpen ? '▲' : '▼'}
+        
+        <div 
+          onClick={() => setIsOpen(!isOpen)} 
+          className={`minecraft-dropdown-selected ${getBackgroundColor()}`}
+        >
+          <div className="flex items-center">
+            {getBlockIcon()}
+            <div>
+              <div className="font-bold">{selectedOption.name}</div>
+              <div className="text-sm">{selectedOption.description}</div>
+              {selectedOption.inspirations && (
+                <div className="text-xs opacity-80">
+                  Inspired by: {selectedOption.inspirations[0]}
+                </div>
+              )}
+            </div>
+          </div>
+          <span>{isOpen ? '▲' : '▼'}</span>
         </div>
       </div>
       
       {isOpen && (
-        <div className="absolute z-10 w-full mt-1 rounded-md overflow-hidden shadow-lg bg-[#f5f5dc] border border-[#e5dcc3] max-h-64 overflow-y-auto">
+        <div className="minecraft-dropdown-options">
           {options.map(option => (
             <div
               key={option.id}
@@ -61,18 +101,14 @@ function CompactDropdown({
                 onChange(option.id);
                 setIsOpen(false);
               }}
-              className={`p-3 cursor-pointer border-b border-[#e5dcc3] transition-colors ${
-                option.id === selected 
-                  ? 'bg-[#f0ece0]' 
-                  : 'hover:bg-[#f0ece0]'
-              }`}
+              className={`minecraft-dropdown-option ${option.id === selected ? 'selected' : ''}`}
             >
-              <h4 className="font-bold text-[#333]">{option.name}</h4>
-              <p className="text-[#5a5a5a] text-sm">{option.description}</p>
+              <div className="font-bold">{option.name}</div>
+              <div className="text-sm">{option.description}</div>
               {option.inspirations && (
-                <p className="text-[#5a5a5a] text-xs italic">
+                <div className="text-xs">
                   Inspired by: {option.inspirations[0]}
-                </p>
+                </div>
               )}
             </div>
           ))}
@@ -191,65 +227,70 @@ export default function HomePage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#f5f5dc] text-[#333]">
-      <div className="container mx-auto px-4 py-8 max-w-3xl">
-        {/* Hero section */}
-        <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold text-[#4a623e] mb-4 tracking-wide">
-            MINECRAFT ADVENTURE
+    <main className="min-h-screen">
+      <div className="container mx-auto px-4 py-10 max-w-3xl">
+        {/* Title section */}
+        <div className="mb-10 text-center">
+          <h1 className="minecraft-title text-5xl mb-6">
+            MINECRAFT<br/>ADVENTURE
           </h1>
-          <p className="text-[#5a5a5a] max-w-2xl mx-auto">
-            Choose your hero, world, and adventure style to begin your journey through a narrative adventure inspired by classic Fighting Fantasy gamebooks.
-          </p>
+          
+          <div className="minecraft-panel my-4 mx-auto max-w-lg">
+            <p className="text-center text-lg">
+              Choose your hero, world, and adventure style to begin your journey through a narrative adventure inspired by classic Fighting Fantasy gamebooks.
+            </p>
+          </div>
         </div>
         
-        {/* Main content */}
-        <div className="bg-[#fffcf0] rounded-lg shadow-md p-6 mb-8">
+        {/* Selection container */}
+        <div className="bg-black bg-opacity-60 border-[3px] border-[#636363] p-6 rounded-sm shadow-lg">
           {/* Hero selection */}
-          <CompactDropdown
-            label="Choose Your Hero"
+          <MinecraftDropdown
+            label="CHOOSE YOUR HERO"
             options={heroes}
             selected={hero}
             onChange={setHero}
-            colorClass="bg-gradient-to-r from-[#4f92d1] to-[#3a7ab9]"
+            type="hero"
           />
           
           {/* World selection */}
-          <CompactDropdown
-            label="Choose Your World"
+          <MinecraftDropdown
+            label="CHOOSE YOUR WORLD"
             options={worlds}
             selected={world}
             onChange={setWorld}
-            colorClass="bg-gradient-to-r from-[#5d8a57] to-[#4a7046]"
+            type="world"
           />
           
           {/* Storyline selection */}
           {loading ? (
-            <div className="mb-6">
-              <label className="block text-[#4a623e] font-bold mb-2 text-lg">
-                Choose Your Adventure Style
-              </label>
-              <div className="animate-pulse bg-gray-300 h-24 rounded-md"></div>
+            <div className="minecraft-dropdown mb-6">
+              <div className="minecraft-dropdown-header">
+                CHOOSE YOUR ADVENTURE STYLE
+              </div>
+              <div className="h-24 bg-[#555] animate-pulse"></div>
             </div>
           ) : (
-            <CompactDropdown
-              label="Choose Your Adventure Style"
+            <MinecraftDropdown
+              label="CHOOSE YOUR ADVENTURE STYLE"
               options={storylines}
               selected={storyline}
               onChange={setStoryline}
-              colorClass="bg-gradient-to-r from-[#6b7280] to-[#4b5563]"
+              type="adventure"
             />
           )}
           
-          <div className="text-[#757575] text-sm italic mb-8 mt-2">
-            Each adventure style provides a different narrative structure and special encounters inspired by classic gamebooks.
+          <div className="minecraft-panel mb-6">
+            <p>
+              Each adventure style provides a different narrative structure and special encounters inspired by classic gamebooks.
+            </p>
           </div>
           
           {/* Start button */}
           <div className="flex justify-center mt-8">
             <button
               onClick={handleStart}
-              className="bg-[#7b9e67] hover:bg-[#4a623e] text-white font-bold py-4 px-10 rounded-md shadow-md transition-all text-xl tracking-wide hover:shadow-lg transform hover:-translate-y-1 active:translate-y-0 active:shadow-md"
+              className="minecraft-button text-xl px-8 py-4"
             >
               START ADVENTURE
             </button>
@@ -257,16 +298,14 @@ export default function HomePage() {
         </div>
         
         {/* Decorative elements */}
-        <div className="flex justify-center gap-8 opacity-80">
-          <div className="w-12 h-12 bg-[#7b5427] rounded-sm relative shadow-sm">
-            <div className="absolute inset-2 bg-[#8b6437] opacity-60"></div>
-          </div>
-          <div className="w-12 h-12 bg-[#5d8a57] rounded-sm relative shadow-sm">
-            <div className="absolute inset-2 bg-[#7ba875] opacity-60"></div>
-          </div>
-          <div className="w-12 h-12 bg-[#7b7b7b] rounded-sm relative shadow-sm">
-            <div className="absolute inset-2 bg-[#9b9b9b] opacity-60"></div>
-          </div>
+        <div className="flex justify-center gap-8 my-8">
+          <div className="minecraft-block-dirt w-10 h-10 transform hover:scale-110 transition-transform"></div>
+          <div className="minecraft-block-grass w-10 h-10 transform hover:scale-110 transition-transform"></div>
+          <div className="minecraft-block-stone w-10 h-10 transform hover:scale-110 transition-transform"></div>
+        </div>
+        
+        <div className="text-center text-white text-shadow text-sm mb-6">
+          Craft your story • Mine your adventure
         </div>
       </div>
     </main>

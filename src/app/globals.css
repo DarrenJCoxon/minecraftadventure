@@ -2,160 +2,212 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import a serif font for better readability */
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+/* Import Minecraft fonts */
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
-/* Define colors */
+/* Custom Minecraft font - either host this file or use VT323 as fallback */
+@font-face {
+  font-family: 'Minecraft';
+  src: url('/fonts/MinecraftTen.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Define Minecraft colors */
 :root {
-  --mc-green: #7b9e67;
-  --mc-dark-green: #4a623e;
-  --mc-cream: #f5f5dc;
-  --mc-light-cream: #fffcf0;
-  --mc-dark-cream: #e5dcc3;
-  --mc-brown: #7b5427;
-  --mc-light-brown: #8b6437;
-  --mc-highlight: #f0d78a;
-  --mc-text: #333333;
-  --mc-light-text: #5a5a5a;
+  /* Block colors */
+  --mc-dirt: #866043;
+  --mc-dirt-light: #a88756;
+  --mc-dirt-dark: #5c4322;
+  --mc-grass: #5b9c3a;
+  --mc-grass-light: #7bc253;
+  --mc-grass-dark: #3b6826;
+  --mc-stone: #7d7d7d;
+  --mc-stone-light: #9c9c9c;
+  --mc-stone-dark: #555555;
+  --mc-wood: #a0752d;
+  --mc-wood-light: #c19849;
+  --mc-wood-dark: #694d1e;
+  
+  /* UI colors */
+  --mc-ui-base: #c6c6c6;
+  --mc-ui-dark: #555555;
+  --mc-ui-light: #dddddd;
+  --mc-ui-border: #636363;
+  
+  /* Text colors */
+  --mc-text-dark: #3f3f3f;
+  --mc-text-light: #ffffff;
+
+  /* Functional colors */
+  --mc-button-hover: #aed75a;
+  --mc-button-active: #6b8e23;
+  --mc-button-disabled: #999999;
+  
+  /* Element Colors */
+  --mc-steve: #55aaff;
+  --mc-overworld: #7bc253;
+  --mc-nether: #b02e26;
+  --mc-end: #9370db;
 }
 
 body {
-  font-family: 'Libre Baskerville', serif;
-  background-color: var(--mc-cream);
-  color: var(--mc-text);
-  line-height: 1.6;
+  font-family: 'VT323', 'Minecraft', monospace;
+  background-color: var(--mc-ui-base);
+  color: var(--mc-text-dark);
+  font-size: 1.5rem;
+  line-height: 1.5;
   margin: 0;
   padding: 0;
+  image-rendering: pixelated;
+}
+
+/* Minecraft dirt background */
+.minecraft-bg {
+  background-image: url("data:image/png;base64,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");
+  background-repeat: repeat;
+  background-size: 64px 64px;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Libre Baskerville', serif;
-  font-weight: 700;
+  font-family: 'Minecraft', 'VT323', monospace;
+  color: var(--mc-grass);
+  text-shadow: 2px 2px 0px var(--mc-text-dark);
+  line-height: 1.2;
 }
 
-a {
-  color: var(--mc-dark-green);
-  text-decoration: none;
+/* Minecraft style title */
+.minecraft-title {
+  font-family: 'Minecraft', 'VT323', monospace;
+  text-transform: uppercase;
+  text-align: center;
+  text-shadow: 2px 2px 0px var(--mc-text-dark);
+  letter-spacing: 1px;
+  transform: scale(1, 1.1);
+  color: var(--mc-grass);
 }
 
-/* Story text styling */
-.story-text {
-  font-size: 2.0rem;
-  line-height: 1.8;
-  color: var(--mc-text);
-}
-
-/* User action styling */
-.user-action {
-  margin: 1.5rem 0;
-  font-size: 1rem;
-}
-
-/* Suggestions container styling */
-.suggestions-container {
-  border-left: 4px solid var(--mc-green);
-  background-color: var(--mc-dark-cream);
-  padding: 1rem 1.5rem;
-  margin: 1.5rem 0;
-  font-size: 1rem;
-  color: var(--mc-text);
-}
-
-.suggestions-container h4 {
-  font-weight: 700;
-  color: var(--mc-dark-green);
-  margin-bottom: 0.5rem;
-}
-
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--mc-dark-cream);
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: var(--mc-green);
-  border-radius: 4px;
-  border: 2px solid var(--mc-dark-cream);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: var(--mc-dark-green);
-}
-
-/* Input styling */
-input:focus {
-  outline: none;
-  border-color: var(--mc-green);
-  box-shadow: 0 0 0 2px rgba(123, 158, 103, 0.2);
-}
-
-/* Animation for loading spinner */
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* Text emphasis */
-.story-text strong {
-  color: var(--mc-dark-green);
-  font-weight: 700;
-}
-
-.story-text em {
-  color: var(--mc-brown);
-  font-style: italic;
-}
-
-/* Adventure info styling */
-.info-label {
-  font-weight: 500;
-  color: var(--mc-light-text);
-}
-
-.info-value {
-  font-weight: 600;
-  color: var(--mc-text);
-}
-
-/* Container styles */
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
-/* Button styles */
-button {
+/* Minecraft style buttons */
+.minecraft-button {
+  font-family: 'Minecraft', 'VT323', monospace;
+  background-color: var(--mc-grass);
+  color: white;
+  text-shadow: 2px 2px 0px var(--mc-text-dark);
+  padding: 0.75rem 1.5rem;
+  border-top: 4px solid var(--mc-grass-light);
+  border-left: 4px solid var(--mc-grass-light);
+  border-right: 4px solid var(--mc-grass-dark);
+  border-bottom: 4px solid var(--mc-grass-dark);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.1s ease;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-button:hover {
-  transform: translateY(-1px);
+.minecraft-button:hover {
+  background-color: var(--mc-button-hover);
+  transform: translateY(-2px);
 }
 
-button:active {
-  transform: translateY(1px);
+.minecraft-button:active {
+  transform: translateY(2px);
+  border-top: 4px solid var(--mc-grass-dark);
+  border-left: 4px solid var(--mc-grass-dark);
+  border-right: 4px solid var(--mc-grass-light);
+  border-bottom: 4px solid var(--mc-grass-light);
 }
 
-button:disabled {
-  opacity: 0.7;
+.minecraft-button:disabled {
+  background-color: var(--mc-button-disabled);
   cursor: not-allowed;
+  opacity: 0.7;
 }
 
-/* Improved readability for the story content */
-@media (min-width: 768px) {
-  .story-container {
-    padding: 0 2rem;
-  }
+/* Minecraft style block icons */
+.minecraft-block {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  display: inline-block;
 }
 
-@media (max-width: 767px) {
+.minecraft-block-dirt {
+  background-color: var(--mc-dirt);
+  border-top: 2px solid var(--mc-dirt-light);
+  border-left: 2px solid var(--mc-dirt-light);
+  border-right: 2px solid var(--mc-dirt-dark);
+  border-bottom: 2px solid var(--mc-dirt-dark);
+}
+
+.minecraft-block-grass {
+  background-color: var(--mc-dirt);
+  border-top: 2px solid var(--mc-grass);
+  border-left: 2px solid var(--mc-dirt-light);
+  border-right: 2px solid var(--mc-dirt-dark);
+  border-bottom: 2px solid var(--mc-dirt-dark);
+}
+
+.minecraft-block-stone {
+  background-color: var(--mc-stone);
+  border-top: 2px solid var(--mc-stone-light);
+  border-left: 2px solid var(--mc-stone-light);
+  border-right: 2px solid var(--mc-stone-dark);
+  border-bottom: 2px solid var(--mc-stone-dark);
+}
+
+.minecraft-block-steve {
+  background-color: #F9C49A; /* Steve skin color */
+  border: 2px solid var(--mc-ui-dark);
+}
+
+/* Story container with proper margins and light background */
+.story-container {
+  padding: 1.5rem 3rem; /* Increased horizontal padding to 3rem (48px) */
+  max-width: 3xl;
+  margin: 0 auto;
+  overflow-y: auto;
+  background-color: #f8f8f8; /* Light background */
+}
+
+/* Adventure text styling with black text */
+.adventure-text {
+  color: #222; /* Dark text color */
+  text-shadow: none; /* Remove text shadow */
+  font-size: 1.5rem;
+  line-height: 1.6;
+}
+
+/* User input styling */
+.border-l-4.border-\[\#44bd32\].bg-black.bg-opacity-80 {
+  background-color: #f0f8f0 !important; /* Light green background */
+  border-color: #44bd32 !important;
+}
+
+.border-l-4.border-\[\#44bd32\].bg-black.bg-opacity-80 p {
+  color: #222 !important; /* Dark text */
+}
+
+.border-l-4.border-\[\#44bd32\].bg-black.bg-opacity-80 span.font-bold {
+  color: #44bd32 !important; /* Keep green for emphasis */
+}
+
+/* Options styling */
+.adventure-options {
+  border: 4px solid #44bd32;
+  background-color: #f0f8f0; /* Light green tinted background */
+  padding: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.adventure-options p {
+  color: #222 !important; /* Dark text */
+}
+
+/* For mobile screens, reduce the side margins slightly */
+@media (max-width: 768px) {
   .story-container {
-    padding: 0 1rem;
+    padding: 1.5rem 1.5rem;
   }
 }
