@@ -11,7 +11,7 @@ interface DropdownOption {
   inspirations?: string[];
 }
 
-// Improved Minecraft Dropdown Component
+// Minecraft Dropdown Component
 function MinecraftDropdown({ 
   label, 
   options, 
@@ -31,13 +31,12 @@ function MinecraftDropdown({
   // Get background color based on type
   const getBackgroundColor = () => {
     switch(type) {
-      case "hero": return "bg-[#55AAFF]";
-      case "world": return "bg-[#7BC253]";
-      case "adventure": return "bg-[#888888]";
-      default: return "bg-[#7d7d7d]";
+      case "hero": return "bg-[#3080D0]"; // Darker blue
+      case "world": return "bg-[#5AA33A]"; // Darker green
+      case "adventure": return "bg-[#666666]"; // Darker grey
+      default: return "bg-[#666666]";
     }
   };
-  
 
   // Get block icon based on selected option
   const getBlockIcon = () => {
@@ -82,16 +81,16 @@ function MinecraftDropdown({
           <div className="flex items-center">
             {getBlockIcon()}
             <div className="flex-1">
-              <div className="font-bold text-lg">{selectedOption.name}</div>
-              <div className="text-sm text-[#222222]">{selectedOption.description}</div>
+              <div className="font-bold text-lg text-white">{selectedOption.name}</div>
+              <div className="text-sm text-[#EEEEEE]">{selectedOption.description}</div>
               {selectedOption.inspirations && (
-                <div className="text-xs opacity-80 italic">
+                <div className="text-xs text-[#DDDDDD] italic">
                   Inspired by: {selectedOption.inspirations[0]}
                 </div>
               )}
             </div>
-            <div className="w-8 h-8 flex items-center justify-center bg-[#00000022] rounded-sm ml-2">
-              <span className="text-lg">{isOpen ? '▲' : '▼'}</span>
+            <div className="w-8 h-8 flex items-center justify-center bg-[#00000055] rounded-sm ml-2">
+              <span className="text-lg text-white">{isOpen ? '▲' : '▼'}</span>
             </div>
           </div>
         </div>
@@ -143,14 +142,14 @@ function MinecraftDropdown({
                 )}
                 
                 <div className="flex-1">
-                  <div className={`font-bold ${option.id === selected ? 'text-[#AAFFAA]' : 'group-hover:text-[#FFFFFF]'}`}>
+                  <div className={`font-bold text-white ${option.id === selected ? 'text-[#AAFFAA]' : 'group-hover:text-[#FFFFFF]'}`}>
                     {option.name}
                   </div>
-                  <div className={`text-sm ${option.id === selected ? 'text-[#FFFFFF]' : 'text-[#AAAAAA] group-hover:text-[#DDDDDD]'}`}>
+                  <div className={`text-sm ${option.id === selected ? 'text-[#FFFFFF]' : 'text-[#DDDDDD] group-hover:text-[#FFFFFF]'}`}>
                     {option.description}
                   </div>
                   {option.inspirations && (
-                    <div className={`text-xs ${option.id === selected ? 'text-[#CCFFCC]' : 'text-[#888888] group-hover:text-[#BBBBBB]'} italic`}>
+                    <div className={`text-xs ${option.id === selected ? 'text-[#CCFFCC]' : 'text-[#BBBBBB] group-hover:text-[#DDDDDD]'} italic`}>
                       Inspired by: {option.inspirations[0]}
                     </div>
                   )}
@@ -287,15 +286,15 @@ export default function HomePage() {
             MINECRAFT<br/>ADVENTURE
           </h1>
           
-          <div className="minecraft-panel my-4 mx-auto max-w-lg p-4 bg-black bg-opacity-60 border-2 border-[#636363]">
-            <p className="text-center text-lg text-white">
+          <div className="minecraft-panel my-4 mx-auto max-w-lg p-4 bg-black bg-opacity-75 border-2 border-[#636363]">
+            <p className="text-center text-lg text-white homepage-intro-text">
               Choose your hero, world, and adventure style to begin your journey through a narrative adventure inspired by classic Fighting Fantasy gamebooks.
             </p>
           </div>
         </div>
         
-        {/* Selection container */}
-        <div className="bg-black bg-opacity-60 border-[3px] border-[#636363] p-6 rounded-sm shadow-lg">
+        {/* Selection container - make background darker */}
+        <div className="bg-black bg-opacity-75 border-[3px] border-[#636363] p-6 rounded-sm shadow-lg">
           {/* Hero selection */}
           <MinecraftDropdown
             label="CHOOSE YOUR HERO"
@@ -314,13 +313,17 @@ export default function HomePage() {
             type="world"
           />
           
-          {/* Storyline selection */}
+          {/* Storyline selection - improve loading state contrast */}
           {loading ? (
             <div className="minecraft-dropdown mb-6">
               <div className="minecraft-dropdown-header mb-2 inline-block px-3 py-1 bg-black text-white font-bold border-b-2 border-[#555]">
                 CHOOSE YOUR ADVENTURE STYLE
               </div>
-              <div className="h-24 bg-[#555] border-4 border-t-[#cccccc] border-l-[#cccccc] border-r-[#555555] border-b-[#555555] animate-pulse"></div>
+              <div className="h-24 bg-[#666] border-4 border-t-[#cccccc] border-l-[#cccccc] border-r-[#555555] border-b-[#555555] animate-pulse">
+                <div className="flex items-center h-full px-4">
+                  <div className="text-white">Loading adventures...</div>
+                </div>
+              </div>
             </div>
           ) : (
             <MinecraftDropdown
@@ -332,8 +335,8 @@ export default function HomePage() {
             />
           )}
           
-          <div className="minecraft-panel mb-6 p-4 bg-[#222222] bg-opacity-80 border-2 border-[#444444] mt-4">
-            <p className="text-[#AAAAAA] text-sm">
+          <div className="minecraft-panel mb-6 p-4 bg-[#000000] bg-opacity-80 border-2 border-[#444444] mt-4">
+            <p className="text-[#FFFFFF] text-sm">
               Each adventure style provides a different narrative structure and special encounters inspired by classic gamebooks.
             </p>
           </div>
