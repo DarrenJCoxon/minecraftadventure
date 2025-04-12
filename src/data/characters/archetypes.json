@@ -1,0 +1,227 @@
+{
+    "heroArchetypes": {
+      "Steve": {
+        "personality": "Brave, resourceful, and practical",
+        "strengths": ["Mining", "Building", "Combat versatility"],
+        "weaknesses": ["Sometimes overconfident", "Not especially stealthy", "Prefers direct approaches"],
+        "growthArc": {
+          "initialState": "Capable but inexperienced adventurer",
+          "challenges": ["Learning to rely on others", "Balancing risk and reward", "Finding purpose beyond survival"],
+          "potentialGrowth": ["Master craftsman", "Natural leader", "Legendary hero"]
+        },
+        "relationshipDynamics": {
+          "villagers": "Respected provider and protector",
+          "monsters": "Determined opponent but not needlessly cruel",
+          "animals": "Kind caretaker and occasional tamer"
+        }
+      },
+      "Alex": {
+        "personality": "Curious, agile, and thoughtful",
+        "strengths": ["Exploration", "Archery", "Problem-solving"],
+        "weaknesses": ["Sometimes too cautious", "Less effective in direct combat", "Can be distracted by mysteries"],
+        "growthArc": {
+          "initialState": "Knowledge-seeking explorer",
+          "challenges": ["Confronting dangers directly", "Learning when to act quickly", "Finding balance between curiosity and caution"],
+          "potentialGrowth": ["Master cartographer", "Brilliant strategist", "Discoverer of lost knowledge"]
+        },
+        "relationshipDynamics": {
+          "villagers": "Valued for knowledge and trading",
+          "monsters": "Prefers to outsmart rather than confront",
+          "animals": "Researcher and friend to creatures"
+        }
+      },
+      "Zombie": {
+        "personality": "Persistent, tough, and straightforward",
+        "strengths": ["Endurance", "Night vision", "Immunity to some dangers"],
+        "weaknesses": ["Slow movement", "Limited intelligence", "Feared by villagers"],
+        "growthArc": {
+          "initialState": "Outcast struggling with identity",
+          "challenges": ["Gaining acceptance", "Overcoming instincts", "Finding purpose despite limitations"],
+          "potentialGrowth": ["Accepted mediator", "Champion of outcasts", "Redeemed hero"]
+        },
+        "relationshipDynamics": {
+          "villagers": "Initially feared, must prove intentions",
+          "monsters": "Complex relationship as both kin and opponent",
+          "animals": "Animals are wary but can be befriended"
+        }
+      },
+      "Skeleton": {
+        "personality": "Precise, cautious, and tactical",
+        "strengths": ["Archery", "Stealth", "Operating at night"],
+        "weaknesses": ["Fragile structure", "Vulnerable to fire", "Feared by most"],
+        "growthArc": {
+          "initialState": "Lonely outcast with deadly skills",
+          "challenges": ["Finding allies", "Proving worth beyond combat", "Discovering origin"],
+          "potentialGrowth": ["Master archer", "Shadow guardian", "Undead protector"]
+        },
+        "relationshipDynamics": {
+          "villagers": "Deeply mistrusted, must work harder for acceptance",
+          "monsters": "Natural alliance with some, rivalry with others",
+          "animals": "Animals are frightened except for wolves and cats"
+        }
+      },
+      "Custom": {
+        "personality": "Adaptable placeholder for player's imagination",
+        "strengths": ["Player-defined abilities", "Unique perspective", "Adaptability"],
+        "weaknesses": ["Undefined until player choices", "Potentially conflicted background", "Must establish reputation"],
+        "growthArc": {
+          "initialState": "Newcomer with mysterious background",
+          "challenges": ["Discovering true identity", "Balancing conflicting goals", "Finding place in the world"],
+          "potentialGrowth": ["Path determined by player choices", "Multiple potential destinies", "Legend of player's creation"]
+        },
+        "relationshipDynamics": {
+          "villagers": "Relationship built from scratch",
+          "monsters": "Reactions vary based on player choices",
+          "animals": "Must earn trust and loyalty"
+        }
+      }
+    },
+    "npcArchetypes": [
+      {
+        "id": "mentor",
+        "role": "Guide and Teacher",
+        "description": "A wise character who provides guidance, knowledge, and possibly training",
+        "examples": ["Elder villager", "Retired adventurer", "Mysterious wizard"],
+        "narrativeFunction": [
+          "Provide exposition about the world",
+          "Teach the hero new skills or abilities",
+          "Reveal important story information at key moments",
+          "Challenge the hero to grow beyond their current limits"
+        ],
+        "relationshipDynamics": {
+          "initialMeeting": "Skeptical but sees potential in hero",
+          "development": "Increasingly trusting and proud",
+          "potential complications": ["Has a secret agenda", "In danger and needs rescue", "Tests hero with false information"]
+        }
+      },
+      {
+        "id": "ally",
+        "role": "Friend and Supporter",
+        "description": "A character who joins or aids the hero's quest",
+        "examples": ["Fellow adventurer", "Friendly mob", "Villager with special skills"],
+        "narrativeFunction": [
+          "Provide skills the hero lacks",
+          "Create emotional connection and stakes",
+          "Offer different perspective on challenges",
+          "Help in crucial moments"
+        ],
+        "relationshipDynamics": {
+          "initialMeeting": "Circumstantial alliance or instant friendship",
+          "development": "Growing loyalty and trust",
+          "potential complications": ["Gets captured or endangered", "Disagrees with hero's approach", "Has conflicting loyalties"]
+        }
+      },
+      {
+        "id": "rival",
+        "role": "Competitor or Challenger",
+        "description": "Someone competing with the hero or challenging their methods",
+        "examples": ["Another adventurer", "Skeptical authority figure", "Former friend"],
+        "narrativeFunction": [
+          "Push hero to improve through competition",
+          "Represent alternative approach to problems",
+          "Create tension and conflict without true villainy",
+          "Potentially become ally at crucial moment"
+        ],
+        "relationshipDynamics": {
+          "initialMeeting": "Conflict or competition",
+          "development": "Grudging respect possible",
+          "potential complications": ["Betrayal", "Forced cooperation", "Moral dilemmas"]
+        }
+      },
+      {
+        "id": "guardian",
+        "role": "Protector of Location or Knowledge",
+        "description": "Entity that guards an important place, item, or secret",
+        "examples": ["Ancient golem", "Enchanted armor stand", "Elderly librarian"],
+        "narrativeFunction": [
+          "Test hero's worthiness",
+          "Provide challenge that can't be overcome with combat",
+          "Reveal secrets once criteria are met",
+          "Act as ongoing protector of important elements"
+        ],
+        "relationshipDynamics": {
+          "initialMeeting": "Challenging or preventing hero's progress",
+          "development": "Respect if hero proves worthy",
+          "potential complications": ["Bound by ancient rules", "Corrupted from original purpose", "Cannot directly help even if wanting to"]
+        }
+      },
+      {
+        "id": "villain",
+        "role": "Primary Antagonist",
+        "description": "The main opposition to the hero's goals",
+        "examples": ["Corrupted king", "Ancient evil", "Mad scientist"],
+        "narrativeFunction": [
+          "Create the central conflict",
+          "Embody themes opposite to the hero",
+          "Force difficult choices",
+          "Provide satisfying confrontation"
+        ],
+        "relationshipDynamics": {
+          "initialMeeting": "Establishing threat or mysterious presence",
+          "development": "Escalating conflict and personal stakes",
+          "potential complications": ["Sympathetic motivation", "Former ally or friend", "Believes they are the hero"]
+        }
+      },
+      {
+        "id": "trickster",
+        "role": "Chaotic Element",
+        "description": "Unpredictable character who may help or hinder",
+        "examples": ["Mischievous witch", "Fox shapeshifter", "Traveling merchant"],
+        "narrativeFunction": [
+          "Create unexpected twists",
+          "Test hero's adaptability",
+          "Provide comic relief",
+          "Impart wisdom through unorthodox means"
+        ],
+        "relationshipDynamics": {
+          "initialMeeting": "Confusing or deceptive",
+          "development": "Unpredictable but pattern may emerge",
+          "potential complications": ["Hidden true identity", "Secret knowledge", "Testing hero for unknown purpose"]
+        }
+      }
+    ],
+    "characterProgression": {
+      "stages": [
+        {
+          "id": "introduction",
+          "description": "Character first appears in the story",
+          "narrativeGoals": [
+            "Establish clear first impression",
+            "Hint at deeper character qualities",
+            "Create memorable introduction scene",
+            "Establish relationship to hero"
+          ]
+        },
+        {
+          "id": "development",
+          "description": "Character reveals more depth and complexity",
+          "narrativeGoals": [
+            "Reveal backstory elements",
+            "Show skills or knowledge",
+            "Develop relationship with hero",
+            "Create emotional connection"
+          ]
+        },
+        {
+          "id": "complication",
+          "description": "Character faces challenge or creates one",
+          "narrativeGoals": [
+            "Add unexpected dimension",
+            "Create tension or conflict",
+            "Test relationship with hero",
+            "Reveal hidden motivation"
+          ]
+        },
+        {
+          "id": "resolution",
+          "description": "Character's arc reaches meaningful conclusion",
+          "narrativeGoals": [
+            "Resolve internal conflicts",
+            "Establish new status quo",
+            "Complete transformation or growth",
+            "Solidify legacy in story"
+          ]
+        }
+      ]
+    }
+  }

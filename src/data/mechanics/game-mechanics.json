@@ -1,0 +1,275 @@
+{
+    "adventureMechanics": {
+      "statTracking": {
+        "enabled": true,
+        "stats": [
+          {
+            "id": "health",
+            "name": "Health",
+            "description": "Physical wellbeing of the hero",
+            "defaultValue": 20,
+            "maxValue": 20,
+            "minValue": 0,
+            "criticalThreshold": 5,
+            "consequences": {
+              "criticalLow": "Severely limited options, increased vulnerability",
+              "zero": "Adventure failure, hero must recover or restart"
+            }
+          },
+          {
+            "id": "inventory",
+            "name": "Inventory",
+            "description": "Items carried by the hero",
+            "defaultItems": [],
+            "maxItems": 10,
+            "categories": ["weapon", "tool", "food", "special", "material"]
+          },
+          {
+            "id": "reputation",
+            "name": "Reputation",
+            "description": "How the hero is perceived by various factions",
+            "factions": [
+              {
+                "id": "villagers",
+                "name": "Villagers",
+                "defaultValue": 0,
+                "min": -10,
+                "max": 10,
+                "thresholds": {
+                  "high": "Offered special trades, assistance, and information",
+                  "neutral": "Basic interaction possible",
+                  "low": "Refusal to trade, higher prices, limited information"
+                }
+              },
+              {
+                "id": "monsters",
+                "name": "Monsters",
+                "defaultValue": -5,
+                "min": -10,
+                "max": 10,
+                "thresholds": {
+                  "high": "Some monsters become neutral or helpful",
+                  "neutral": "Reduced aggression from some monsters",
+                  "low": "Increased monster aggression and coordination"
+                }
+              }
+            ]
+          },
+          {
+            "id": "skills",
+            "name": "Skills",
+            "description": "Abilities the hero has developed",
+            "skillList": [
+              {
+                "id": "mining",
+                "name": "Mining",
+                "levels": 5,
+                "defaultLevel": 1
+              },
+              {
+                "id": "combat",
+                "name": "Combat",
+                "levels": 5,
+                "defaultLevel": 1
+              },
+              {
+                "id": "crafting",
+                "name": "Crafting",
+                "levels": 5,
+                "defaultLevel": 1
+              },
+              {
+                "id": "exploration",
+                "name": "Exploration",
+                "levels": 5,
+                "defaultLevel": 1
+              }
+            ]
+          }
+        ]
+      },
+      "choices": {
+        "types": [
+          {
+            "id": "action",
+            "description": "Physical actions the hero can take",
+            "examples": ["Fight", "Run", "Hide", "Climb", "Swim"]
+          },
+          {
+            "id": "dialogue",
+            "description": "Conversation options with NPCs",
+            "examples": ["Ask about location", "Negotiate", "Threaten", "Befriend", "Deceive"]
+          },
+          {
+            "id": "direction",
+            "description": "Where to go next",
+            "examples": ["Go north", "Enter cave", "Follow river", "Return to village"]
+          },
+          {
+            "id": "resource",
+            "description": "How to use or allocate resources",
+            "examples": ["Use health potion", "Craft tool", "Trade items", "Share food"]
+          },
+          {
+            "id": "moral",
+            "description": "Ethical decisions that impact the story",
+            "examples": ["Help stranger vs. avoid risk", "Keep treasure vs. return it", "Mercy vs. justice"]
+          }
+        ],
+        "presentation": {
+          "minimumChoices": 2,
+          "maximumChoices": 4,
+          "choiceBalance": "Include mix of safe and risky options when appropriate",
+          "moralComplexity": "Increase moral complexity as adventure progresses"
+        }
+      },
+      "challengeTypes": [
+        {
+          "id": "combat",
+          "name": "Combat Challenges",
+          "description": "Physical confrontations with enemies",
+          "resolutionFactors": [
+            "Hero's combat skill level",
+            "Appropriate weapon/tool usage",
+            "Tactical choices",
+            "Environmental advantages"
+          ],
+          "outcomes": {
+            "success": ["Defeat enemies", "Gain experience", "Potentially gain items"],
+            "partial": ["Escape with damage", "Temporary retreat", "Stalemate"],
+            "failure": ["Take significant damage", "Lose items", "Forced retreat"]
+          }
+        },
+        {
+          "id": "puzzle",
+          "name": "Puzzles and Riddles",
+          "description": "Intellectual challenges requiring problem-solving",
+          "resolutionFactors": [
+            "Clues previously discovered",
+            "Knowledge about the world",
+            "Creative thinking"
+          ],
+          "outcomes": {
+            "success": ["Access to new area", "Valuable information", "Treasure"],
+            "partial": ["Partial information", "Limited access", "Second chance with hint"],
+            "failure": ["Trapped", "Penalty applied", "Alternative path required"]
+          }
+        },
+        {
+          "id": "exploration",
+          "name": "Exploration Challenges",
+          "description": "Navigating and surviving difficult environments",
+          "resolutionFactors": [
+            "Hero's exploration skill",
+            "Appropriate gear",
+            "Resource management",
+            "Previous knowledge of area type"
+          ],
+          "outcomes": {
+            "success": ["Discover valuable location", "Safe passage", "New knowledge"],
+            "partial": ["Limited discoveries", "Minor setbacks", "Time cost"],
+            "failure": ["Become lost", "Resource depletion", "Environmental damage"]
+          }
+        },
+        {
+          "id": "social",
+          "name": "Social Challenges",
+          "description": "Interactions requiring persuasion, deception, or diplomacy",
+          "resolutionFactors": [
+            "Current reputation with faction",
+            "Previous interactions",
+            "Dialogue choices",
+            "Items or knowledge possessed"
+          ],
+          "outcomes": {
+            "success": ["Gain ally", "Access to information", "Favorable trade"],
+            "partial": ["Limited cooperation", "Conditional help", "Neutral outcome"],
+            "failure": ["Create enemy", "Lose access to area", "Reputation damage"]
+          }
+        },
+        {
+          "id": "resource",
+          "name": "Resource Challenges",
+          "description": "Situations requiring crafting, building, or resource management",
+          "resolutionFactors": [
+            "Hero's crafting skill",
+            "Available materials",
+            "Knowledge of recipes/methods",
+            "Time management"
+          ],
+          "outcomes": {
+            "success": ["Create valuable item", "Build useful structure", "Overcome obstacle"],
+            "partial": ["Create lower quality item", "Temporary solution", "Resource inefficiency"],
+            "failure": ["Waste materials", "Create hazard", "Unable to progress certain path"]
+          }
+        }
+      ]
+    },
+    "fightingFantasyElements": {
+      "skillChecks": {
+        "enabled": true,
+        "description": "Classic Fighting Fantasy skill tests to resolve challenges",
+        "implementation": [
+          "Reference hero's relevant skill level",
+          "Describe 'dice roll' metaphorically in narration",
+          "Outcome determined by skill level and narrative context"
+        ],
+        "narrativePresentation": [
+          "Your mining skill is tested as you strike at the unusual ore...",
+          "Your combat prowess is challenged as three skeletons surround you...",
+          "Your exploration abilities are pushed to the limit in this dense jungle..."
+        ]
+      },
+      "luckTests": {
+        "enabled": true,
+        "description": "Chance-based outcomes with narrative significance",
+        "implementation": [
+          "Present situation where luck plays a role",
+          "Describe outcome based on current story flow",
+          "Can be influenced by items or previous decisions"
+        ],
+        "narrativePresentation": [
+          "You hold your breath as the sleeping guard shifts...",
+          "The rickety bridge creaks as you cross...",
+          "You reach blindly into the dark crevice..."
+        ]
+      },
+      "inventory": {
+        "enabled": true,
+        "description": "Limited inventory requiring strategic management",
+        "implementation": [
+          "Track key items narratively",
+          "Present opportunities to use specific items",
+          "Create situations where item choices matter"
+        ]
+      },
+      "provisions": {
+        "enabled": true,
+        "description": "Food and water requirements for long journeys",
+        "implementation": [
+          "Describe hunger and thirst narratively",
+          "Present food/water sources as part of exploration",
+          "Create consequences for lack of provisions"
+        ]
+      },
+      "instant_death": {
+        "enabled": false,
+        "description": "Classic FF often had instant death paragraphs",
+        "implementation": [
+          "Instead of instant death, create critical situations",
+          "Provide last-chance options",
+          "Create memorable near-death experiences"
+        ]
+      },
+      "combat": {
+        "enabled": true,
+        "description": "Fighting Fantasy-style combat resolution",
+        "implementation": [
+          "Describe combat cinematically",
+          "Reference hero's combat skill and equipment",
+          "Create tension through narration of back-and-forth battle",
+          "Allow for tactical choices during combat"
+        ]
+      }
+    }
+  }

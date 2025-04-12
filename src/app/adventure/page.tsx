@@ -4,6 +4,12 @@ import { useEffect, useState, useRef, Suspense } from 'react';
 import Link from "next/link";
 import { useSearchParams } from 'next/navigation';
 import type { APIResponse, APICallRequest } from '@/types/adventure';
+import { 
+  useNarrativeEngine, 
+  loadNarrativeData, 
+  NarrativeData, 
+  GameMechanics 
+} from '@/lib/narrative-engine';
 
 type MessageRole = "user" | "assistant" | "system";
 
@@ -22,6 +28,25 @@ function MinecraftBlock({ className, style }: { className?: string, style?: Reac
   );
 }
 
+// Progress Bar Component
+function ProgressBar({ percent, phase }: { percent: number, phase: string }) {
+  return (
+    <div className="mb-4 w-full">
+      <div className="flex justify-between items-center mb-1">
+        <span className="text-xs text-[#AAAAAA]">Adventure Progress</span>
+        <span className="text-xs text-[#AAAAAA]">{percent}%</span>
+      </div>
+      <div className="w-full bg-[#333] h-3 rounded-sm overflow-hidden border border-[#555]">
+        <div 
+          className="h-full bg-[#55FF55]" 
+          style={{ width: `${percent}%` }}
+        ></div>
+      </div>
+      <div className="text-xs text-[#AAAAAA] mt-1 italic">Current Phase: {phase}</div>
+    </div>
+  );
+}
+
 // Create a separate component that uses useSearchParams
 function AdventureContent() {
   const params = useSearchParams();
@@ -37,15 +62,49 @@ function AdventureContent() {
   const [ended, setEnded] = useState(false);
   const [turnCount, setTurnCount] = useState(0);
   const [conversationHistory, setConversationHistory] = useState<Message[]>([]);
-  // Removed unused theme state
-  // Set theme based on world
-  // Removed unused theme-related logic
+  const [narrativeData, setNarrativeData] = useState<NarrativeData | null>(null);
+  const [storyProgress, setStoryProgress] = useState({
+    currentPhase: "Introduction",
+    totalTurns: 0,
+    progressPercent: 0,
+    isNearingEnd: false
+  });
+
+  // Load narrative data
+  useEffect(() => {
+    async function fetchNarrativeData() {
+      try {
+        const data = await loadNarrativeData();
+        setNarrativeData(data);
+      } catch (error) {
+        console.error("Failed to load narrative data:", error);
+      }
+    }
+    fetchNarrativeData();
+  }, []);
+
+  // Default fallback mechanics
+  const defaultMechanics: GameMechanics = {
+    adventureMechanics: {},
+    fightingFantasyElements: {}
+  };
+
+  // Always call useNarrativeEngine, but with fallback empty objects if data isn't loaded yet
+  const narrativeEngine = useNarrativeEngine(
+    hero,
+    world,
+    narrativeData?.narrativeStructure || { narrativeArcs: [] },
+    narrativeData?.worldEncounters || { worlds: {} },
+    narrativeData?.characterArchetypes?.heroArchetypes || {},
+    narrativeData?.characterArchetypes?.npcArchetypes || [],
+    narrativeData?.mechanics || defaultMechanics
+  );
 
   useEffect(() => {
-    if (story.length === 0) startStory();
+    if (narrativeData && story.length === 0) startStory();
     setTimeout(() => inputRef.current?.focus(), 300);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [narrativeData]);
 
   // Auto-scroll to bottom when story updates
   useEffect(() => {
@@ -61,34 +120,36 @@ function AdventureContent() {
   async function startStory() {
     setLoading(true);
     try {
-      // Replace the startStory() prompt with this enhanced narrative structure:
+      // Enhanced narrative prompt with guidance from the narrative engine
+      const basePrompt = `
+      You are crafting an epic, immersive Minecraft adventure for a brave hero named ${hero} exploring the mysterious ${world} biome.
 
-    const prompt = `
-    You are crafting an epic, immersive Minecraft adventure for a brave hero named ${hero} exploring the mysterious ${world} biome.
+      Follow this narrative structure to create a compelling beginning:
 
-    Follow this narrative structure to create a compelling beginning:
+      1. OPENING IMAGE (First paragraph): Begin with a brief, peaceful moment showing the hero's normal life in their home village or base. Show a glimpse of their personality, skills, and everyday routine.
 
-    1. OPENING IMAGE (First paragraph): Begin with a brief, peaceful moment showing the hero's normal life in their home village or base. Show a glimpse of their personality, skills, and everyday routine.
+      2. SET-UP (Second paragraph): Establish the world around them - describe the village, the people, or environment that represents "normal" for the hero. Hint at something that's missing in their life or a skill they're known for.
 
-    2. SET-UP (Second paragraph): Establish the world around them - describe the village, the people, or environment that represents "normal" for the hero. Hint at something that's missing in their life or a skill they're known for.
+      3. CATALYST/INCITING INCIDENT (Third paragraph): Introduce a disruption that shatters the equilibrium - perhaps a mysterious traveler arrives with news, a monster attack begins, a strange object is discovered, or an unusual weather event occurs.
 
-    3. CATALYST/INCITING INCIDENT (Third paragraph): Introduce a disruption that shatters the equilibrium - perhaps a mysterious traveler arrives with news, a monster attack begins, a strange object is discovered, or an unusual weather event occurs.
+      4. CALL TO ACTION (Fourth paragraph): Present the hero with a clear invitation to adventure - someone asks for help, they discover a map, they witness something that demands investigation, or they're chosen for a special task.
 
-    4. CALL TO ACTION (Fourth paragraph): Present the hero with a clear invitation to adventure - someone asks for help, they discover a map, they witness something that demands investigation, or they're chosen for a special task.
+      Write in second-person present tense (UK English), full of sensory details, emotion, and character dialogue. The language should be vibrant but suitable for an intelligent ten-year-old, with clear words, short punchy sentences mixed with occasional longer, flowing ones.
 
-    Write in second-person present tense (UK English), full of sensory details, emotion, and character dialogue. The language should be vibrant but suitable for an intelligent ten-year-old, with clear words, short punchy sentences mixed with occasional longer, flowing ones.
+      For emphasis, instead of using asterisks (*) or underscores (_), use UPPERCASE WORDS sparingly for important elements.
 
-    For emphasis, instead of using asterisks (*) or underscores (_), use UPPERCASE WORDS sparingly for important elements.
+      End your response with a natural flowing paragraph suggesting 2-4 possible next actions that would represent the hero's CROSSING THE THRESHOLD into adventure. Begin this paragraph with phrases like "You might consider," "Perhaps you could," or "You feel drawn to" - these suggestions must be woven seamlessly into the narrative without numbering or bullet points.
 
-    End your response with a natural flowing paragraph suggesting 2-4 possible next actions that would represent the hero's CROSSING THE THRESHOLD into adventure. Begin this paragraph with phrases like "You might consider," "Perhaps you could," or "You feel drawn to" - these suggestions must be woven seamlessly into the narrative without numbering or bullet points.
+      As the adventure continues beyond this opening, regularly introduce new characters with distinct personalities, moral choices, revelations, and plot twists that balance danger with opportunity.
 
-    As the adventure continues beyond this opening, regularly introduce new characters with distinct personalities, moral choices, revelations, and plot twists that balance danger with opportunity.
+      Begin NOW with this cinematically structured opening that establishes normalcy and then disrupts it with a compelling call to adventure. DO NOT include subheadings or summaries. Write in a single continuous narrative segment.
+      `.trim();
 
-    Begin NOW with this cinematically structured opening that establishes normalcy and then disrupts it with a compelling call to adventure. DO NOT include subheadings or summaries. Write in a single continuous narrative segment.
-    `.trim();
+      // Get enhanced prompt with narrative guidance
+      const enhancedPrompt = narrativeEngine.enhancePrompt(basePrompt);
 
       // Initialize conversation history with the system prompt
-      const initialMessages: Message[] = [{ role: "system", content: prompt }];
+      const initialMessages: Message[] = [{ role: "system", content: enhancedPrompt }];
       setConversationHistory(initialMessages);
 
       const req: APICallRequest = {
@@ -119,6 +180,10 @@ function AdventureContent() {
       
       // Add assistant's response to conversation history
       setConversationHistory(prev => [...prev, { role: "assistant", content: data.message.trim() }]);
+
+      // Update story progress through narrative engine
+      const progress = narrativeEngine.advanceNarrative("", data.message.trim());
+      setStoryProgress(progress);
     } catch (error) {
       console.error('Error starting story:', error);
       const errorMessage = error instanceof Error 
@@ -144,7 +209,7 @@ function AdventureContent() {
       const updatedHistory: Message[] = [...conversationHistory, { role: "user", content: userInput }];
       setConversationHistory(updatedHistory);
       
-      const prompt = `
+      const basePrompt = `
 This is turn ${newTurnCount} of the immersive Minecraft adventure for ${hero} in the ${world} biome.
 
 Player just did or said: "${userInput}"
@@ -167,9 +232,12 @@ End your reply with a natural flowing paragraph that begins with "Perhaps you co
 DO NOT end or summarize the entire adventure yet, unless you detect the journey is truly complete with the hero returning changed from their adventure, which should conclude with **THE ADVENTURE IS OVER**.
       `.trim();
 
+      // Enhance with narrative guidance
+      const enhancedPrompt = narrativeEngine.enhancePrompt(basePrompt);
+
       // Create a new messages array with the system prompt at the beginning
       const messages: Message[] = [
-        { role: "system", content: prompt },
+        { role: "system", content: enhancedPrompt },
         ...updatedHistory.filter(msg => msg.role !== "system") // Filter out any previous system messages
       ];
 
@@ -207,6 +275,10 @@ DO NOT end or summarize the entire adventure yet, unless you detect the journey 
       setStory(prev => [...prev, data.message.trim()]);
       if (detectEnded(data.message)) setEnded(true);
 
+      // Update story progress through narrative engine
+      const progress = narrativeEngine.advanceNarrative(userInput, data.message.trim());
+      setStoryProgress(progress);
+
       inputRef.current?.focus();
     } catch (error) {
       console.error('Error during chat:', error);
@@ -224,6 +296,12 @@ DO NOT end or summarize the entire adventure yet, unless you detect the journey 
     setStory([]);
     setTurnCount(0);
     setConversationHistory([]); // Clear conversation history
+    setStoryProgress({
+      currentPhase: "Introduction",
+      totalTurns: 0,
+      progressPercent: 0,
+      isNearingEnd: false
+    });
     startStory();
   }
 
@@ -329,6 +407,12 @@ DO NOT end or summarize the entire adventure yet, unless you detect the journey 
             World: <span className="text-[#55FF55]">{world}</span>
           </div>
         </div>
+
+        {/* Progress Bar - New component */}
+        <ProgressBar 
+          percent={storyProgress.progressPercent} 
+          phase={storyProgress.currentPhase} 
+        />
 
         {/* Story container with improved scrolling and styling */}
         <div

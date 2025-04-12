@@ -1,0 +1,237 @@
+{
+    "narrativeArcs": [
+      {
+        "id": "classic_quest",
+        "name": "The Hero's Quest",
+        "description": "A classic adventure structure with clear phases of development",
+        "phases": [
+          {
+            "id": "introduction",
+            "name": "Setting the Scene",
+            "minTurns": 1,
+            "maxTurns": 3,
+            "description": "Establish normal life before the adventure begins",
+            "narrativeGoals": [
+              "Introduce the hero's personality and skills",
+              "Show the hero's daily life in their village/home",
+              "Hint at what's missing in their life or what they desire"
+            ],
+            "requiredElements": ["setting_description", "character_introduction"]
+          },
+          {
+            "id": "call_to_adventure",
+            "name": "The Call to Adventure",
+            "minTurns": 2,
+            "maxTurns": 4,
+            "description": "Something disrupts the hero's normal life",
+            "narrativeGoals": [
+              "Present a clear inciting incident",
+              "Introduce a threat, mystery, or opportunity",
+              "Establish what's at stake"
+            ],
+            "requiredElements": ["inciting_incident", "stakes_established"]
+          },
+          {
+            "id": "crossing_threshold",
+            "name": "Crossing the Threshold",
+            "minTurns": 3,
+            "maxTurns": 5,
+            "description": "The hero commits to the adventure",
+            "narrativeGoals": [
+              "Hero makes a decisive choice to pursue the adventure",
+              "First real challenge or test",
+              "Leave familiar surroundings behind"
+            ],
+            "requiredElements": ["decision_point", "first_challenge"]
+          },
+          {
+            "id": "trials",
+            "name": "Tests, Allies, and Enemies",
+            "minTurns": 8,
+            "maxTurns": 15,
+            "description": "A series of challenges that test the hero and build tension",
+            "narrativeGoals": [
+              "Hero faces increasing challenges",
+              "Allies and enemies are encountered",
+              "Hero collects items, knowledge, or skills",
+              "False victories and setbacks occur"
+            ],
+            "requiredElements": ["combat_encounter", "puzzle", "character_meeting", "skill_test"]
+          },
+          {
+            "id": "midpoint",
+            "name": "Central Ordeal",
+            "minTurns": 3,
+            "maxTurns": 5,
+            "description": "A major test or revelation that changes the hero's understanding",
+            "narrativeGoals": [
+              "Major revelation about the quest or world",
+              "Hero faces a seemingly insurmountable challenge",
+              "Something thought true is revealed as false",
+              "Stakes are raised significantly"
+            ],
+            "requiredElements": ["major_challenge", "revelation", "stakes_elevation"]
+          },
+          {
+            "id": "complications",
+            "name": "The Road Back",
+            "minTurns": 6,
+            "maxTurns": 10,
+            "description": "New complications arise after the central ordeal",
+            "narrativeGoals": [
+              "Consequences of earlier choices come into play",
+              "New, unexpected challenges arise",
+              "Allies may become enemies or vice versa",
+              "The true nature of the quest is revealed"
+            ],
+            "requiredElements": ["unexpected_complication", "betrayal_or_surprise", "hard_choice"]
+          },
+          {
+            "id": "final_challenge",
+            "name": "The Final Ordeal",
+            "minTurns": 4,
+            "maxTurns": 7,
+            "description": "The hero faces their greatest challenge",
+            "narrativeGoals": [
+              "All skills and items acquired are put to use",
+              "The main antagonist or challenge is faced directly",
+              "Hero must make a significant sacrifice or choice",
+              "The central conflict comes to a head"
+            ],
+            "requiredElements": ["boss_encounter", "final_choice", "climactic_moment"]
+          },
+          {
+            "id": "resolution",
+            "name": "Return with the Elixir",
+            "minTurns": 2,
+            "maxTurns": 5,
+            "description": "The hero returns changed from their journey",
+            "narrativeGoals": [
+              "Resolution of the main conflict",
+              "Hero changed by their experiences",
+              "Rewards are distributed",
+              "New status quo is established",
+              "Hint at possible future adventures"
+            ],
+            "requiredElements": ["reward", "transformation", "homecoming"]
+          }
+        ],
+        "totalMinimumTurns": 30,
+        "recommendedLength": 40
+      },
+      {
+        "id": "mystery_quest",
+        "name": "The Unfolding Mystery",
+        "description": "A gradually unfolding mystery with multiple twists",
+        "phases": [
+          {
+            "id": "strange_discovery",
+            "name": "Strange Discovery",
+            "minTurns": 2,
+            "maxTurns": 4,
+            "description": "The hero encounters something unusual or inexplicable",
+            "narrativeGoals": [
+              "Hero discovers something that doesn't make sense",
+              "Initial clue that something is wrong",
+              "Establish normal life that will soon be disrupted"
+            ],
+            "requiredElements": ["unusual_discovery", "setting_description"]
+          },
+          {
+            "id": "investigation",
+            "name": "Initial Investigation",
+            "minTurns": 4,
+            "maxTurns": 7,
+            "description": "Hero begins to investigate the mystery",
+            "narrativeGoals": [
+              "Gathering initial clues",
+              "Meeting people connected to the mystery",
+              "First dangerous encounter related to investigation"
+            ],
+            "requiredElements": ["clue_gathering", "npc_interrogation", "danger_sign"]
+          },
+          {
+            "id": "first_twist",
+            "name": "First Major Twist",
+            "minTurns": 3,
+            "maxTurns": 5,
+            "description": "The investigation takes an unexpected turn",
+            "narrativeGoals": [
+              "Initial theory is proved wrong",
+              "New information changes understanding of the situation",
+              "Threat level increases significantly"
+            ],
+            "requiredElements": ["revelation", "danger_escalation", "unexpected_turn"]
+          },
+          {
+            "id": "deeper_investigation",
+            "name": "Deeper into the Mystery",
+            "minTurns": 6,
+            "maxTurns": 10,
+            "description": "Hero delves deeper, facing greater challenges",
+            "narrativeGoals": [
+              "More complex clues are discovered",
+              "Hero goes to dangerous or forbidden locations",
+              "Powers or entities are revealed"
+            ],
+            "requiredElements": ["dangerous_location", "significant_clue", "new_ability_or_item"]
+          },
+          {
+            "id": "second_twist",
+            "name": "Second Major Twist",
+            "minTurns": 3,
+            "maxTurns": 5,
+            "description": "Another major revelation changes everything",
+            "narrativeGoals": [
+              "Someone trusted is revealed as untrustworthy",
+              "The scope of the mystery expands dramatically",
+              "A seemingly impossible situation is presented"
+            ],
+            "requiredElements": ["betrayal", "scope_expansion", "impossible_situation"]
+          },
+          {
+            "id": "desperate_measures",
+            "name": "Desperate Measures",
+            "minTurns": 4,
+            "maxTurns": 7,
+            "description": "Hero must take risky actions to solve the mystery",
+            "narrativeGoals": [
+              "Hero takes significant risks",
+              "Previously gained knowledge is put to use",
+              "Allegiances shift as the truth emerges"
+            ],
+            "requiredElements": ["risky_action", "knowledge_application", "allegiance_shift"]
+          },
+          {
+            "id": "final_revelation",
+            "name": "The Final Revelation",
+            "minTurns": 4,
+            "maxTurns": 6,
+            "description": "The full truth is finally revealed",
+            "narrativeGoals": [
+              "All clues come together to reveal the truth",
+              "The actual villain or threat is confronted",
+              "Hero must make a final, difficult choice"
+            ],
+            "requiredElements": ["truth_revealed", "villain_confrontation", "moral_choice"]
+          },
+          {
+            "id": "aftermath",
+            "name": "Aftermath",
+            "minTurns": 2,
+            "maxTurns": 4,
+            "description": "Dealing with the consequences of the truth",
+            "narrativeGoals": [
+              "Consequences of the revelation are addressed",
+              "Hero changed by what they've learned",
+              "New status quo is established",
+              "Hints at unsolved mysteries remain"
+            ],
+            "requiredElements": ["consequence_resolution", "character_change", "loose_end"]
+          }
+        ],
+        "totalMinimumTurns": 28,
+        "recommendedLength": 45
+      }
+    ]
+  }

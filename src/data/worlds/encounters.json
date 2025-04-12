@@ -1,0 +1,301 @@
+{
+    "worlds": {
+      "Overworld": {
+        "encounters": [
+          {
+            "id": "village_raid",
+            "name": "Village Under Attack",
+            "description": "The hero discovers a village being raided by pillagers",
+            "elements": {
+              "enemies": ["Pillager Captain", "Pillagers", "Ravagers"],
+              "challenges": ["Save villagers", "Defend buildings", "Defeat the captain"],
+              "rewards": ["Hero of the Village status", "Valuable trades", "Information"]
+            },
+            "narrativeHooks": [
+              "Villagers might know something about the main quest",
+              "An important item might be found in the village",
+              "A mysterious stranger might be hiding among the villagers"
+            ]
+          },
+          {
+            "id": "ancient_temple",
+            "name": "Woodland Mansion Discovery",
+            "description": "A massive wooden mansion appears in the dark forest",
+            "elements": {
+              "enemies": ["Evokers", "Vindicators", "Traps"],
+              "challenges": ["Navigate maze-like halls", "Disarm traps", "Find the secret room"],
+              "rewards": ["Totem of Undying", "Enchanted books", "Rare materials"]
+            },
+            "narrativeHooks": [
+              "Strange symbols on the walls hint at an ancient civilization",
+              "A hidden library contains crucial information",
+              "Evokers are performing a ritual with unknown consequences"
+            ]
+          },
+          {
+            "id": "mineshaft_exploration",
+            "name": "Abandoned Mineshaft",
+            "description": "An extensive, dangerous network of abandoned tunnels",
+            "elements": {
+              "enemies": ["Cave Spiders", "Skeletons", "Creepers"],
+              "challenges": ["Navigate in darkness", "Cross collapsed sections", "Find valuable ores"],
+              "rewards": ["Diamonds", "Gold", "Minecart with chest"]
+            },
+            "narrativeHooks": [
+              "Signs of a previous expedition that went wrong",
+              "Strange markings suggest the miners found something unusual",
+              "An old journal from a missing explorer"
+            ]
+          }
+        ],
+        "locations": [
+          {
+            "id": "forgotten_monument",
+            "name": "Ocean Monument",
+            "description": "An underwater temple guarded by aquatic creatures",
+            "elements": {
+              "guardians": ["Elder Guardian", "Guardians"],
+              "features": ["Labyrinthine corridors", "Treasure rooms", "Ancient technology"],
+              "challenges": ["Water breathing", "Underwater combat", "Puzzles"]
+            }
+          },
+          {
+            "id": "mountain_stronghold",
+            "name": "Mountain Fortress",
+            "description": "A fortress built into the side of a mountain",
+            "elements": {
+              "occupants": ["Bandits", "Tamed wolves", "Corrupt knights"],
+              "features": ["Watchtowers", "Training grounds", "Underground dungeons"],
+              "challenges": ["Climbing", "Stealth", "Confrontation"]
+            }
+          }
+        ],
+        "items": [
+          {
+            "id": "enchanted_compass",
+            "name": "Wayfinder's Compass",
+            "description": "A compass that points to what the holder truly seeks",
+            "powers": ["Reveal hidden locations", "Guide through mazes", "Find rare resources"]
+          },
+          {
+            "id": "ancient_sword",
+            "name": "Blade of the Last Hero",
+            "description": "A sword wielded by a legendary hero of old",
+            "powers": ["Extra damage against undead", "Can cut through certain barriers", "Glows near danger"]
+          }
+        ]
+      },
+      "Nether": {
+        "encounters": [
+          {
+            "id": "fortress_battle",
+            "name": "Nether Fortress Assault",
+            "description": "A massive fortress in the Nether controlled by evil forces",
+            "elements": {
+              "enemies": ["Blazes", "Wither Skeletons", "Magma Cubes"],
+              "challenges": ["Cross lava rivers", "Navigate fortress", "Find brewing stands"],
+              "rewards": ["Blaze rods", "Wither skeleton skulls", "Nether wart"]
+            },
+            "narrativeHooks": [
+              "Ancient technology powered by souls",
+              "A prisoner being held in the depths",
+              "Evidence of experiments with portal technology"
+            ]
+          },
+          {
+            "id": "bastion_infiltration",
+            "name": "Piglin Bastion Heist",
+            "description": "A massive fortress inhabited by Piglins guarding treasures",
+            "elements": {
+              "enemies": ["Piglin Brutes", "Piglins", "Hoglins"],
+              "challenges": ["Stealth or negotiation", "Find the treasure room", "Escape pursuit"],
+              "rewards": ["Ancient debris", "Gold blocks", "Enchanted gear"]
+            },
+            "narrativeHooks": [
+              "Evidence of an ancient civilization",
+              "Piglins worshipping something unknown",
+              "A half-completed portal to somewhere new"
+            ]
+          }
+        ],
+        "locations": [
+          {
+            "id": "soul_sand_valley",
+            "name": "Valley of Lost Souls",
+            "description": "A valley filled with the souls of the lost",
+            "elements": {
+              "enemies": ["Ghasts", "Skeletons", "Soul flames"],
+              "features": ["Soul sand quicksand", "Crying obsidian deposits", "Bone structures"],
+              "challenges": ["Resist soul drain", "Navigate safely", "Communicate with spirits"]
+            }
+          },
+          {
+            "id": "warped_forest",
+            "name": "The Whispering Forest",
+            "description": "A twisted forest of blue fungi where reality seems altered",
+            "elements": {
+              "inhabitants": ["Endermen", "Striders", "Unknown entities"],
+              "features": ["Warped vegetation", "Glowing spores", "Strange structures"],
+              "challenges": ["Maintain sanity", "Follow the whispers", "Find rare resources"]
+            }
+          }
+        ]
+      },
+      "The End": {
+        "encounters": [
+          {
+            "id": "dragon_battle",
+            "name": "Ender Dragon's Domain",
+            "description": "The central island where the Ender Dragon reigns",
+            "elements": {
+              "enemies": ["Ender Dragon", "Endermen", "Shulkers"],
+              "challenges": ["Destroy crystals", "Avoid dragon breath", "Reach floating platforms"],
+              "rewards": ["Dragon egg", "Experience", "Gateway to outer islands"]
+            },
+            "narrativeHooks": [
+              "The dragon guards knowledge of the ancient builders",
+              "Strange writing reveals the origin of the End",
+              "Evidence that someone else has been here recently"
+            ]
+          },
+          {
+            "id": "end_city_exploration",
+            "name": "End City Expedition",
+            "description": "Surreal floating cities in the void with valuable treasures",
+            "elements": {
+              "enemies": ["Shulkers", "Phantoms", "Void guardians"],
+              "challenges": ["Flying or building bridges", "Anti-gravity rooms", "Find the ship"],
+              "rewards": ["Elytra", "Shulker boxes", "End-infused items"]
+            },
+            "narrativeHooks": [
+              "The architecture suggests this wasn't built by Endermen",
+              "Evidence of experiments to escape the End",
+              "Maps to something beyond the void"
+            ]
+          }
+        ],
+        "locations": [
+          {
+            "id": "chorus_wastes",
+            "name": "The Singing Wastes",
+            "description": "Endless expanses of chorus plants that seem to sing",
+            "elements": {
+              "features": ["Chorus fruit teleportation", "Floating islands", "Crystal formations"],
+              "challenges": ["Unpredictable teleportation", "Void gaps", "Disorienting sounds"]
+            }
+          },
+          {
+            "id": "void_breach",
+            "name": "The Breach",
+            "description": "A massive tear in reality that leads nowhere and everywhere",
+            "elements": {
+              "features": ["Reality distortion", "Time anomalies", "Glimpses of other worlds"],
+              "challenges": ["Resist void corruption", "Maintain physical form", "Extract void essence"]
+            }
+          }
+        ]
+      },
+      "Jungle": {
+        "encounters": [
+          {
+            "id": "temple_discovery",
+            "name": "Jungle Temple Discovery",
+            "description": "An overgrown temple full of traps and treasures",
+            "elements": {
+              "enemies": ["Temple guardians", "Poisonous creatures", "Ancient constructs"],
+              "challenges": ["Decipher hieroglyphs", "Disarm traps", "Navigate overgrowth"],
+              "rewards": ["Golden artifacts", "Ancient knowledge", "Unique seeds"]
+            },
+            "narrativeHooks": [
+              "The temple was built to contain something dangerous",
+              "Evidence of human sacrifice suggests dark rituals",
+              "Maps to other temples forming a network"
+            ]
+          },
+          {
+            "id": "canopy_village",
+            "name": "Village in the Trees",
+            "description": "A settlement built in the canopy of massive jungle trees",
+            "elements": {
+              "inhabitants": ["Tree-dwelling tribe", "Tamed parrots", "Outcast explorers"],
+              "challenges": ["Gain trust", "Learn to navigate rope bridges", "Help with threat"],
+              "rewards": ["Unique crafting techniques", "Local knowledge", "Allies"]
+            },
+            "narrativeHooks": [
+              "The tribe guards an ancient secret",
+              "They have legends about 'those who came before'",
+              "Strange rituals performed during full moons"
+            ]
+          }
+        ]
+      },
+      "Ice Plains": {
+        "encounters": [
+          {
+            "id": "frost_castle",
+            "name": "Frozen Castle",
+            "description": "A massive structure of ice inhabited by dangerous entities",
+            "elements": {
+              "enemies": ["Frozen husks", "Ice elementals", "Polar bears"],
+              "challenges": ["Resist freezing", "Solve ice puzzles", "Find heat sources"],
+              "rewards": ["Ice magic", "Preserved ancient artifacts", "Cold-resistant gear"]
+            },
+            "narrativeHooks": [
+              "The castle was frozen suddenly, preserving a moment in time",
+              "Evidence of advanced technology powered by cold",
+              "Records of an expedition that discovered something terrible"
+            ]
+          },
+          {
+            "id": "aurora_phenomenon",
+            "name": "The Great Aurora",
+            "description": "A magical aurora that grants visions and powers",
+            "elements": {
+              "entities": ["Light spirits", "Shadow creatures", "Lost explorers"],
+              "challenges": ["Interpret visions", "Follow the aurora", "Resist madness"],
+              "rewards": ["Prophetic knowledge", "Aurora essence", "Connection to other worlds"]
+            },
+            "narrativeHooks": [
+              "The aurora appears only when something threatens the world",
+              "Ancient tribes worshipped the lights as gods",
+              "The patterns contain mathematical formulas of great power"
+            ]
+          }
+        ]
+      },
+      "Desert Temple": {
+        "encounters": [
+          {
+            "id": "sealed_tomb",
+            "name": "Tomb of the Ancient Pharaoh",
+            "description": "A massive pyramid with a maze of corridors and chambers",
+            "elements": {
+              "enemies": ["Mummified guards", "Scorpions", "Sand elementals"],
+              "challenges": ["Decipher hieroglyphs", "Solve ancient puzzles", "Find secret passages"],
+              "rewards": ["Pharaoh's treasures", "Ancient magic", "Historic knowledge"]
+            },
+            "narrativeHooks": [
+              "The pharaoh was buried with a powerful artifact",
+              "Prophecies on the walls predict a hero's coming",
+              "Evidence that the pharaoh discovered something world-changing"
+            ]
+          },
+          {
+            "id": "oasis_mirage",
+            "name": "The Shifting Oasis",
+            "description": "An oasis that appears and disappears, holding many secrets",
+            "elements": {
+              "inhabitants": ["Water spirits", "Desert nomads", "Exotic creatures"],
+              "challenges": ["Find the real oasis", "Resist illusions", "Prove worthiness"],
+              "rewards": ["Water magic", "Maps to hidden locations", "Blessing of the desert"]
+            },
+            "narrativeHooks": [
+              "The oasis exists in multiple realities simultaneously",
+              "Ancient rituals performed at the waters grant visions",
+              "The water has healing properties that could save someone important"
+            ]
+          }
+        ]
+      }
+    }
+  }
