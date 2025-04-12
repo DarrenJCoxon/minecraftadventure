@@ -468,3 +468,23 @@ h1, h2, h3, h4, h5, h6 {
 .minecraft-dropdown-option:hover .minecraft-block-stone {
   transform: scale(1.1);
 }
+/* Make adventure input text larger */
+.adventure-input {
+  font-size: 2rem !important; /* Increased from text-2xl */
+  font-family: 'VT323', 'Minecraft', monospace;
+  padding: 0.75rem 1rem !important;
+  line-height: 1.2;
+  letter-spacing: 0.5px;
+}
+
+/* Make the placeholder text match the new size */
+.adventure-input::placeholder {
+  color: #555;
+  opacity: 0.8;
+  font-size: 2rem;
+}
+
+/* Ensure input has proper height for the larger text */
+input.adventure-input {
+  min-height: 4rem;
+}

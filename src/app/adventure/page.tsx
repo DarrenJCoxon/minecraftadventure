@@ -607,34 +607,34 @@ DO NOT end or summarize the entire adventure yet, unless you detect the journey 
 
         {/* Input area */}
         {!ended ? (
-          <div className="p-6 bg-black bg-opacity-80 border-t-[3px] border-[#636363] flex gap-3">
-            <input
-              ref={inputRef}
-              className="flex-grow p-4 bg-[#c6c6c6] border-3 border-[#555555] text-[#111] text-2xl font-['VT323'] focus:outline-none focus:border-[#44bd32]"
-              placeholder="What will you do next?"
-              value={input}
-              disabled={loading}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              autoFocus
-            />
-            <button
-              disabled={loading}
-              onClick={send}
-              className="minecraft-button text-xl px-8"
-            >
-              {loading ? '...' : 'SEND'}
-            </button>
-          </div>
-        ) : (
-          <div className="p-6 bg-black bg-opacity-80 border-t-[3px] border-[#636363] flex justify-center">
-            <button
-              onClick={restart}
-              className="minecraft-button text-xl px-10 py-4"
-            >
-              NEW ADVENTURE
-            </button>
-          </div>
+        <div className="p-6 bg-black bg-opacity-80 border-t-[3px] border-[#636363] flex gap-3">
+          <input
+            ref={inputRef}
+            className="flex-grow p-4 bg-[#c6c6c6] border-3 border-[#555555] text-[#111] text-4xl font-['VT323'] focus:outline-none focus:border-[#44bd32] adventure-input"
+            placeholder="What will you do next?"
+            value={input}
+            disabled={loading}
+            onChange={e => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            autoFocus
+          />
+          <button
+            disabled={loading}
+            onClick={send}
+            className="minecraft-button text-2xl px-8"
+          >
+            {loading ? '...' : 'SEND'}
+          </button>
+        </div>
+      ) : (
+        <div className="p-6 bg-black bg-opacity-80 border-t-[3px] border-[#636363] flex justify-center">
+          <button
+            onClick={restart}
+            className="minecraft-button text-xl px-10 py-4"
+          >
+            NEW ADVENTURE
+          </button>
+        </div>
         )}
       </div>
     </main>
