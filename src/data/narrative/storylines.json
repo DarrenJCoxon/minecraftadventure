@@ -1,0 +1,100 @@
+{
+    "storylines": [
+      {
+        "id": "classic_adventure",
+        "name": "Classic Adventure",
+        "description": "A standard adventuring quest with a balance of exploration, combat, and puzzles",
+        "inspirations": ["Generic adventure"]
+      },
+      {
+        "id": "warlock_mountain",
+        "name": "The Mysterious Mountain",
+        "description": "Navigate a treacherous mountain maze to find a powerful wizard's treasure",
+        "inspirations": ["The Warlock of Firetop Mountain"],
+        "specialFeatures": {
+          "mainGoal": "Find the treasure hidden deep in the mountain",
+          "majorCharacters": ["The Warlock", "Mountain Guardian", "Trapped Adventurers"],
+          "specialItems": ["Maze Map", "Golden Key", "Magic Gems", "Enchanted Sword"],
+          "specialEncounters": [
+            "Three paths diverge before you, each leading to different sections of the mountain",
+            "A locked door requires a specific key",
+            "A riddle must be solved to proceed",
+            "A guardian creature blocks your path",
+            "The final confrontation with the powerful warlock"
+          ]
+        }
+      },
+      {
+        "id": "deathtrap_challenge",
+        "name": "The Trial of Champions",
+        "description": "Enter a deadly competition filled with traps, monsters, and rival champions",
+        "inspirations": ["Deathtrap Dungeon"],
+        "specialFeatures": {
+          "mainGoal": "Survive the deadly dungeon competition and claim the prize",
+          "majorCharacters": ["The Dungeon Master", "Rival Champions", "Trapped Previous Contestants"],
+          "specialItems": ["Trial Map", "Champion's Token", "Antidotes", "Trap Detection Amulet"],
+          "specialEncounters": [
+            "Deadly traps that require quick thinking or special equipment",
+            "Rival champions who may help or hinder you",
+            "Tests of skill rather than just combat",
+            "Hidden treasures that give advantages",
+            "The final challenge to claim victory"
+          ]
+        }
+      },
+      {
+        "id": "thieves_city",
+        "name": "City of Shadows",
+        "description": "Navigate a dangerous city filled with thieves, criminals, and hidden dangers",
+        "inspirations": ["City of Thieves"],
+        "specialFeatures": {
+          "mainGoal": "Find a specific item or person hidden somewhere in the criminal underworld",
+          "majorCharacters": ["Crime Lord", "Shady Merchant", "City Guard Captain", "Street Urchin Guide"],
+          "specialItems": ["City Map", "Thieves' Guild Token", "Disguise Kit", "Lockpicks"],
+          "specialEncounters": [
+            "Marketplace with dubious merchants",
+            "Tavern with secret information to gather",
+            "Thieves' Guild meeting or heist",
+            "Back-alley ambush",
+            "Safe-cracking or lock-picking challenge"
+          ]
+        }
+      },
+      {
+        "id": "doom_forest",
+        "name": "The Mysterious Forest",
+        "description": "Journey through an ancient forest filled with dangerous creatures and magical secrets",
+        "inspirations": ["Forest of Doom"],
+        "specialFeatures": {
+          "mainGoal": "Find magical items to save a nearby village or defeat an ancient evil",
+          "majorCharacters": ["Forest Druid", "Tree Spirit", "Lost Warrior", "Forest Witch"],
+          "specialItems": ["Forest Map", "Magic Compass", "Healing Herbs", "Enchanted Woodcutter's Axe"],
+          "specialEncounters": [
+            "Clearing with magical properties",
+            "Ancient tree with wisdom to share",
+            "River crossing challenge",
+            "Hostile tribe or settlement",
+            "Magical creature hunt"
+          ]
+        }
+      },
+      {
+        "id": "chaos_citadel",
+        "name": "The Sorcerer's Citadel",
+        "description": "Infiltrate a magical fortress filled with sorcery, strange creatures, and arcane puzzles",
+        "inspirations": ["The Citadel of Chaos"],
+        "specialFeatures": {
+          "mainGoal": "Defeat the evil sorcerer and end their magical tyranny",
+          "majorCharacters": ["Evil Sorcerer", "Apprentice Wizard", "Magical Creatures", "Imprisoned Mage"],
+          "specialItems": ["Spell Book", "Magic Wand", "Protection Amulet", "Potion Collection"],
+          "specialEncounters": [
+            "Magical duel with a wizard",
+            "Potion brewing challenge",
+            "Illusion room with hidden reality",
+            "Magical creature taming",
+            "Arcane puzzle with runes or symbols"
+          ]
+        }
+      }
+    ]
+  }
