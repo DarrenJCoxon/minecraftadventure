@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@huggingface/inference": "^3.8.0",
     "next": "15.3.0",
+    "openai": "^4.94.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "together-ai": "^0.15.0"

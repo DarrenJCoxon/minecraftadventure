@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
       console.log('Received response from Together AI');
 
       // Extract the message content
-      const content = togetherResponse.choices?.[0]?.message?.content ?? 'No response generated.';
+      const content = togetherResponse.choices[0].message.content || 'No response generated.';
 
       // Check for premature adventure ending
       let finalContent = content;
