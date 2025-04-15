@@ -2,14 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 // Assuming your types are in '@/types/adventure' - adjust if needed
 import type { APICallRequest, APIResponse } from '@/types/adventure';
 
-export const maxDuration = 5; // This function can run for a maximum of 5 seconds
- 
-export function GET() {
-  return new Response('Vercel', {
-    status: 200,
-  });
-}
-
 export const runtime = 'edge';
 
 // Define a more specific type for the messages (kept from your original)
